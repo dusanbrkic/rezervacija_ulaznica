@@ -5,3 +5,5 @@
 /out
 /.idea
 /RezervacijaUlaznicaWebApp.iml
+/WebContent/WEB-INF/lib/
+/WebContent/JS/
