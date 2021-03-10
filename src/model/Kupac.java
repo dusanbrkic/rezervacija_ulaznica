@@ -5,4 +5,5 @@ import java.util.List;
 
 public class Kupac extends Korisnik {
 	private List<String> karte;
+	private int brojBodova;
 }
