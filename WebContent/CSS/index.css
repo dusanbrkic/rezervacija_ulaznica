@@ -4,7 +4,11 @@ body{
 	background-repeat: no-repeat;
 	background-attachment: fixed;
   	background-size: 100% 100%;
+  	
+  	color: white;
 }
+
+
 
 #bg-div{
 	background-image: url("../RES/party.jpg");
