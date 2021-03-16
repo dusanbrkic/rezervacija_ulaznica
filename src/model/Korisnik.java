@@ -2,6 +2,7 @@ package model;
 
 import java.util.Date;
 
+import model.enums.Pol;
 import model.enums.Rola;
 
 public class Korisnik {
@@ -11,6 +12,7 @@ public class Korisnik {
 	private String prezime;
 	private Date datumRodjenja;
 	private Rola uloga;
+	private Pol pol;
 	private Boolean blocked;
 	private Boolean deleted;
 	
@@ -64,6 +66,12 @@ public class Korisnik {
 	}
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
+	}
+	public Pol getPol() {
+		return pol;
+	}
+	public void setPol(Pol pol) {
+		this.pol = pol;
 	}
 	
  }
