@@ -1,6 +1,12 @@
 Vue.component("Register",{
 	data: function () {
-	    return {    
+	    return {
+	    	ime:"",
+	    	prezime: "",
+	    	username:"",
+            password:"",
+            pol:"",
+            datumRodjenja:""
 	    }
 	},
 	    
@@ -11,13 +17,13 @@ Vue.component("Register",{
 	    	<h1 id="h1-register">Registracija</h1>
 		<form>
 		<table id="reg-table">
-	    	<tr><td>Ime:</td><td><input type="text" name="ime"></td></tr>
-	    	<tr><td>Prezime:</td><td><input type="text" name="prezime"></td></tr>
-	    	<tr><td>Korisničko ime:</td><td><input type="text" name="username"></td></tr>
-	    	<tr><td>Lozinka:</td><td><input type="password" name="password"></td></tr>
-	    	<tr><td>Pol:</td><td><select><option value="M">Muški</option><option value="Z">Ženski</option></select></td></tr>
-	    	<tr><td>Datum rođenja:</td><td><input type="date" name="datumr"></td></tr>
-	    	<tr><td colspan="2" style="text-align: center; font-size: 30px;"><input type="submit" value="Registruj se"></td></tr>
+	    	<tr><td>Ime:</td><td><input type="text" v-model="ime"></td></tr>
+	    	<tr><td>Prezime:</td><td><input type="text" v-model="prezime"></td></tr>
+	    	<tr><td>Korisničko ime:</td><td><input type="text" v-model="username"></td></tr>
+	    	<tr><td>Lozinka:</td><td><input type="password" v-model="password"></td></tr>
+	    	<tr><td>Pol:</td><td><select v-model="pol"><option value="MUSKI" selected="selected">Muški</option><option value="ZENSKI">Ženski</option></select></td></tr>
+	    	<tr><td>Datum rođenja:</td><td><input type="date" v-model="datumRodjenja"></td></tr>
+	    	<tr><td colspan="2" style="text-align: center; font-size: 30px;"><input type="submit" v-on:click="submit()" value="Registruj se"></td></tr>
 		</table>
 		</form>
 		
@@ -26,8 +32,20 @@ Vue.component("Register",{
 `
 	,
 	methods : {
-		init : function() {
+		submit : function() {
+			console.log("salje se zahtev");
+			let korisnik = {
+					ime:this.ime,
+					prezime:this.prezime,
+					username:this.username,
+					password:this.password,
+					pol:this.pol,
+					datumRodjenja:this.datumRodjenja
+			}
 			
+			axios
+			.post("rest/korisnici/registracija", korisnik)
+			.then(response=>{this.$router.push("/")})
 		}
 	}
 		
