@@ -16,6 +16,20 @@ public class Korisnik {
 	private Boolean blocked;
 	private Boolean deleted;
 	
+	public Korisnik(String username, String password, String ime, String prezime, Date datumRodjenja, Rola uloga,
+			Pol pol) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.datumRodjenja = datumRodjenja;
+		this.uloga = uloga;
+		this.pol = pol;
+		this.blocked = false;
+		this.deleted = false;
+	}
+	
 	public Korisnik() {
 		super();
 	}
