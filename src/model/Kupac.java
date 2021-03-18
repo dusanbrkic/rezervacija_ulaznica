@@ -10,9 +10,14 @@ import model.enums.Rola;
 public class Kupac extends Korisnik {
 	private List<String> karte;
 	private int brojBodova;
-	
-	public Kupac(String username, String password, String ime, String prezime, Date datumRodjenja, Rola uloga, Pol pol) {
-		super(username, password, ime, prezime, datumRodjenja, uloga, pol);
+
+	public Kupac(){
+		super();
+		karte = new ArrayList<String>();
+	}
+
+	public Kupac(String username, String password, String ime, String prezime, Date datumRodjenja, Pol pol) {
+		super(username, password, ime, prezime, datumRodjenja, Rola.KUPAC, pol);
 		setBrojBodova(0);
 		karte = new ArrayList<String>();
 	}
@@ -20,9 +25,15 @@ public class Kupac extends Korisnik {
 	public int getBrojBodova() {
 		return brojBodova;
 	}
-
 	public void setBrojBodova(int brojBodova) {
 		this.brojBodova = brojBodova;
 	}
-	
+
+	public List<String> getKarte() {
+		return karte;
+	}
+
+	public void setKarte(List<String> karte) {
+		this.karte = karte;
+	}
 }

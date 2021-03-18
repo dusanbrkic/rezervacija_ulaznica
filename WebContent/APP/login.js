@@ -7,11 +7,11 @@ Vue.component("Login",{
 	    
 	    template : ` 
 <div>
-		Dokrotski Login!
+		Login Page
 		
 	<div>
-		<button v-on:click="init">
-			teraj na home
+		<button v-on:click="cancel">
+			Cancel
 		</button>
 	</div>
 		
@@ -19,7 +19,7 @@ Vue.component("Login",{
 `
 	,
 	methods : {
-		init : function() {
+		cancel : function() {
 			app.$router.push("/")
 		}
 	}

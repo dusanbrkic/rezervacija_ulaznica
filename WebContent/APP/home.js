@@ -6,24 +6,30 @@ Vue.component("Home",{
 	},
 	    
 	    template : ` 
-<div>
-	Dokrotski Home!
-	
 	<div>
-		<button v-on:click="init">
-			klikni me
-		</button>
-	</div>
-	<div>
-	
-	</div>
+		Dobrodosli u najjacu aplikaciju za rezervaciju ulaznica na Balkanu!
 		
-</div>		  
+		<div>
+			<button v-on:click="loginKorisnik">
+				Login Page
+			</button>
+			<button v-on:click="registerKupac">
+				Register Page
+			</button>
+		</div>
+		<div>
+		
+		</div>
+			
+	</div>		  
 `
 	,
 	methods : {
-		init : function() {
-			app.$router.push("/Login")
+		loginKorisnik : function() {
+			app.$router.push("/login")
+		},
+		registerKupac : function() {
+			app.$router.push("/register")
 		}
 	}
 });

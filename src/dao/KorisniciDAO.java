@@ -3,6 +3,7 @@
 package dao;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.Korisnik;
@@ -16,12 +17,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystems;
-import java.util.Date;
+import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class KorisniciDAO {
 	public static final String projectDir = System.getProperty("user.dir");
@@ -29,43 +27,38 @@ public class KorisniciDAO {
 	
     private static final String korisniciFileName  = projectDir + fileSeparator + "WebContent" + fileSeparator
     		+ "RES" + fileSeparator + "korisnici.json";
-    private ArrayList<Korisnik> korisnici;
+    private HashMap<String, Korisnik> korisnici;
 
     public KorisniciDAO() {
-        //loadKorisnici();
-    	System.out.println(System.getProperty("user.dir"));
-    	writeKorisniciFromCode();
+        korisnici = new HashMap<>();
+    	//loadKorisnici();
     }
 
-    private void writeKorisniciFromCode() {
-    	String sDate1="31/12/1998";
-    	Date date1 = null;
-		try {
-			date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-    	Kupac k = new Kupac("usn", "pass", "ime", "prz", date1, Rola.KUPAC, Pol.MUSKI);
-    	List<Korisnik> korisnici = new ArrayList<Korisnik>();
-    	korisnici.add(k);
+    public void saveKorisnici() {
     	try {
-			new ObjectMapper().writeValue(new BufferedWriter(new FileWriter(new File(korisniciFileName))), korisnici);
+			new ObjectMapper().writeValue((new FileWriter(korisniciFileName)), korisnici);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void loadKorisnici() {
-        try {
-            List<Korisnik> korisnici = Arrays.asList(
-            		new ObjectMapper().readValue(korisniciFileName, Korisnik[].class));
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		TypeReference<HashMap<String,Korisnik>> typeRef
+				= new TypeReference<HashMap<String,Korisnik>>() {};
+		try {
+			korisnici = new ObjectMapper().readValue(korisniciFileName, typeRef);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-    }
+	}
+
+	public void registrujKupca(Kupac k) {
+    	k.setBlocked(false);
+    	k.setBrojBodova(0);
+    	k.setUloga(Rola.KUPAC);
+    	k.setKarte(new ArrayList<>());
+    	korisnici.put(k.getUsername(), k);
+    	saveKorisnici();
+	}
 }

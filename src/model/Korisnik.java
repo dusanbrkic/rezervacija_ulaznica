@@ -29,10 +29,11 @@ public class Korisnik {
 		this.blocked = false;
 		this.deleted = false;
 	}
-	
+
 	public Korisnik() {
-		super();
+
 	}
+
 	public String getUsername() {
 		return username;
 	}

@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import dao.KorisniciDAO;
 import model.Korisnik;
+import model.Kupac;
 
 @Path("/korisnici")
 public class KorisniciService {
@@ -24,19 +25,20 @@ public class KorisniciService {
 
 	@PostConstruct
 	public void init() {
-		if(context.getAttribute("komentariDAO")==null) {
-			KorisniciDAO dao = new KorisniciDAO();
-			context.setAttribute("komentariDAO", dao);
+		if(context.getAttribute("korisniciDAO")==null) {
+			KorisniciDAO kd = new KorisniciDAO();
+			context.setAttribute("korisniciDAO", kd);
 		}
 	}
 	
 	@POST
-	@Path("/registracija")
+	@Path("/registracijaKupca")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean registracija(Korisnik k) {
-		System.out.println("Registruje se korisnik: "+k.getDatumRodjenja());
-		
+	public boolean registracijaKupca(Kupac k) {
+		System.out.println(k);
+		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		kd.registrujKupca(k);
 		return false;
 	}
 }

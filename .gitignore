@@ -3,3 +3,7 @@
 build
 .project
 *.class
+package.json
+lib
+RezervacijaUlaznicaWebApp.iml
+.idea
