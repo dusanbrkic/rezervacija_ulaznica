@@ -3,10 +3,7 @@ package services;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -35,10 +32,33 @@ public class KorisniciService {
 	@Path("/registracijaKupca")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean registracijaKupca(Kupac k) {
-		System.out.println(k);
+	public String registracijaKupca(Kupac k) {
 		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
-		kd.registrujKupca(k);
-		return false;
+		return kd.registrujKupca(k);
+	}
+	@POST
+	@Path("/validateKupac/{cookie}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Boolean validateKupac(@PathParam("cookie") String cookie) {
+		System.out.println("JA SAM "+ cookie);
+		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		return kd.validateKupac(cookie);
+	}
+	@POST
+	@Path("/validateProdavac")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Boolean validateProdavac(String cookieToken) {
+		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		return kd.validateProdavac(cookieToken);
+	}
+	@POST
+	@Path("/validateAdmin")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Boolean validateAdmin(String cookieToken) {
+		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		return kd.validateAdmin(cookieToken);
 	}
 }

@@ -15,24 +15,9 @@ public class Korisnik {
 	private Pol pol;
 	private Boolean blocked;
 	private Boolean deleted;
-	
-	public Korisnik(String username, String password, String ime, String prezime, Date datumRodjenja, Rola uloga,
-			Pol pol) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.ime = ime;
-		this.prezime = prezime;
-		this.datumRodjenja = datumRodjenja;
-		this.uloga = uloga;
-		this.pol = pol;
-		this.blocked = false;
-		this.deleted = false;
-	}
+	private String cookieToken;
 
-	public Korisnik() {
-
-	}
+	public Korisnik() { }
 
 	public String getUsername() {
 		return username;
@@ -88,5 +73,10 @@ public class Korisnik {
 	public void setPol(Pol pol) {
 		this.pol = pol;
 	}
-	
- }
+	public String getCookieToken() {
+		return cookieToken;
+	}
+	public void setCookieToken(String token) {
+		this.cookieToken = token;
+	}
+}

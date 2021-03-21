@@ -16,12 +16,6 @@ public class Kupac extends Korisnik {
 		karte = new ArrayList<String>();
 	}
 
-	public Kupac(String username, String password, String ime, String prezime, Date datumRodjenja, Pol pol) {
-		super(username, password, ime, prezime, datumRodjenja, Rola.KUPAC, pol);
-		setBrojBodova(0);
-		karte = new ArrayList<String>();
-	}
-
 	public int getBrojBodova() {
 		return brojBodova;
 	}

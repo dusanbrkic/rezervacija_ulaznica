@@ -1,6 +1,6 @@
 
 body{
-	background-image: url("../RES/party.jpg");
+	background-image: url("../RES/slicice/party.jpg");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
   	background-size: 100% 100%;
@@ -11,6 +11,6 @@ body{
 
 
 #bg-div{
-	background-image: url("../RES/party.jpg");
+	background-image: url("../RES/slicice/party.jpg");
 	height: 100%;
 }
