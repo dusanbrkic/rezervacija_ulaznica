@@ -98,51 +98,31 @@ public class KorisniciDAO {
         return k.getCookieToken();
     }
 
-    public Boolean validateKupac(String token) {
+    public String validateUser(String token) {
         Map<String, String> parsedToken;
         try {
             parsedToken = CookieToken.parseToken(token);
         } catch (CookieToken.CookieParseException e) {
-            return false;
+            return "";
         }
         String usn = parsedToken.get("username");
         String pass = parsedToken.get("password");
         if (kupci.containsKey(usn)) {
             Kupac k = kupci.get(usn);
-            return k.getPassword().equals(pass);
-        }
-        return false;
-    }
-
-    public Boolean validateAdmin(String token) {
-        Map<String, String> parsedToken;
-        try {
-            parsedToken = CookieToken.parseToken(token);
-        } catch (CookieToken.CookieParseException e) {
-            return false;
-        }
-        String usn = parsedToken.get("username");
-        String pass = parsedToken.get("password");
-        if (admini.containsKey(usn)) {
+            if (k.getPassword().equals(pass)) {
+                return "KUPAC";
+            }
+        } else if (admini.containsKey(usn)) {
             Admin a = admini.get(usn);
-            return a.getPassword().equals(pass);
-        }
-        return false;
-    }
-
-    public Boolean validateProdavac(String token) {
-        Map<String, String> parsedToken;
-        try {
-            parsedToken = CookieToken.parseToken(token);
-        } catch (CookieToken.CookieParseException e) {
-            return false;
-        }
-        String usn = parsedToken.get("username");
-        String pass = parsedToken.get("password");
-        if (prodavci.containsKey(usn)) {
+            if (a.getPassword().equals(pass)) {
+                return "ADMIN";
+            }
+        } else if (prodavci.containsKey(usn)) {
             Prodavac p = prodavci.get(usn);
-            return p.getPassword().equals(pass);
+            if (p.getPassword().equals(pass)) {
+                return "PRODAVAC";
+            }
         }
-        return false;
+        return "";
     }
 }

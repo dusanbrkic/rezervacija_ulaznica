@@ -6,7 +6,8 @@ Vue.component("Register", {
             username: "",
             password: "",
             pol: "",
-            datumRodjenja: ""
+            datumRodjenja: "",
+            cookie: ""
         }
     },
 
@@ -60,8 +61,8 @@ Vue.component("Register", {
     `
     ,
     methods: {
-        submit: async function () {
-            if(this.pol === ""){
+        submit: function () {
+            if (this.pol === "") {
                 alert("Niste uneli pol!")
                 return
             }
@@ -73,18 +74,16 @@ Vue.component("Register", {
                 pol: this.pol,
                 datumRodjenja: this.datumRodjenja
             }
-            let cookie = null
-            await axios
+            axios
                 .post("rest/korisnici/registracijaKupca", kupac)
-                .then((response) => (cookie = response.data))
+                .then((response) => (this.cookie = response.data))
 
-            if (cookie == "") {
+            if (this.cookie == "") {
                 alert("Korisnicko ime zauzeto!")
                 return;
-            }
-            else {
-                console.log("emitting.. " + cookie)
-                localStorage.setItem("cookie", cookie)
+            } else {
+                console.log("emitting.. " + this.cookie)
+                localStorage.setItem("cookie", this.cookie)
             }
 
             this.$router.push("/")

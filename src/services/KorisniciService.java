@@ -36,29 +36,12 @@ public class KorisniciService {
 		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
 		return kd.registrujKupca(k);
 	}
-	@POST
-	@Path("/validateKupac/{cookie}")
+	@GET
+	@Path("/validateUser/{cookie}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Boolean validateKupac(@PathParam("cookie") String cookie) {
-		System.out.println("JA SAM "+ cookie);
+	public String validateUser(@PathParam("cookie") String cookie) {
 		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
-		return kd.validateKupac(cookie);
-	}
-	@POST
-	@Path("/validateProdavac")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Boolean validateProdavac(String cookieToken) {
-		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
-		return kd.validateProdavac(cookieToken);
-	}
-	@POST
-	@Path("/validateAdmin")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Boolean validateAdmin(String cookieToken) {
-		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
-		return kd.validateAdmin(cookieToken);
+		return kd.validateUser(cookie);
 	}
 }
