@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.CookieParseException;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +21,4 @@ public class CookieToken {
         retVal.put("password", values[1]);
         return retVal;
     }
-
-    public static class CookieParseException extends Exception {}
 }

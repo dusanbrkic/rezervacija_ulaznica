@@ -61,7 +61,7 @@ Vue.component("Register", {
     `
     ,
     methods: {
-        submit: function () {
+        submit: async function () {
             if (this.pol === "") {
                 alert("Niste uneli pol!")
                 return
@@ -74,7 +74,7 @@ Vue.component("Register", {
                 pol: this.pol,
                 datumRodjenja: this.datumRodjenja
             }
-            axios
+            await axios
                 .post("rest/korisnici/registracijaKupca", kupac)
                 .then((response) => (this.cookie = response.data))
 
@@ -82,7 +82,6 @@ Vue.component("Register", {
                 alert("Korisnicko ime zauzeto!")
                 return;
             } else {
-                console.log("emitting.. " + this.cookie)
                 localStorage.setItem("cookie", this.cookie)
             }
 

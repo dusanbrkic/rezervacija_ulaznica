@@ -2,24 +2,19 @@
 
 package dao;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exceptions.CookieParseException;
+import exceptions.UnknownUsernameException;
+import exceptions.UsernameExistsException;
+import exceptions.WrongPasswordException;
 import model.*;
-import model.enums.Pol;
 import model.enums.Rola;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.util.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class KorisniciDAO {
     public static final String projectDir = System.getProperty("user.dir");
@@ -84,7 +79,7 @@ public class KorisniciDAO {
         }
     }
 
-    public String registrujKupca(Kupac k) {
+    public String registrujKupca(Kupac k) throws UsernameExistsException {
         k.setUloga(Rola.KUPAC);
         k.setDeleted(false);
         k.setBlocked(false);
@@ -92,7 +87,7 @@ public class KorisniciDAO {
         k.setKarte(new ArrayList<>());
         k.setCookieToken(CookieToken.createTokenValue(k.getUsername(), k.getPassword()));
         if (kupci.containsKey(k.getUsername()))
-            return "";
+            throw new UsernameExistsException();
         kupci.put(k.getUsername(), k);
         saveKupci();
         return k.getCookieToken();
@@ -102,7 +97,7 @@ public class KorisniciDAO {
         Map<String, String> parsedToken;
         try {
             parsedToken = CookieToken.parseToken(token);
-        } catch (CookieToken.CookieParseException e) {
+        } catch (CookieParseException e) {
             return "";
         }
         String usn = parsedToken.get("username");
@@ -124,5 +119,27 @@ public class KorisniciDAO {
             }
         }
         return "";
+    }
+
+    public String loginUser(String username, String password) throws WrongPasswordException, UnknownUsernameException {
+        if (kupci.containsKey(username)) {
+            Kupac k = kupci.get(username);
+            if (k.getPassword().equals(password)) {
+                return k.getCookieToken();
+            }
+        } else if (admini.containsKey(username)) {
+            Admin a = admini.get(username);
+            if (a.getPassword().equals(password)) {
+                return a.getCookieToken();
+            }
+        } else if (prodavci.containsKey(username)) {
+            Prodavac p = prodavci.get(username);
+            if (p.getPassword().equals(password)) {
+                return p.getCookieToken();
+            }
+        } else {
+            throw new UnknownUsernameException();
+        }
+        throw new WrongPasswordException();
     }
 }

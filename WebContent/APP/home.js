@@ -8,16 +8,16 @@ Vue.component("Home", {
     mounted() {
         let storage = localStorage.getItem("cookie")
         if (storage != null) {
-            this.cookieToken = localStorage.getItem("cookie")
+            this.cookieToken = storage
         }
-        if (this.cookieToken!=="")
+        if (this.cookieToken !== "")
             this.validateUser()
     },
     template: `
       <div>
       Dobrodosli u najjacu aplikaciju za rezervaciju ulaznica na Balkanu!
 
-      <div>
+      <div v-if="rola===''">
         <button v-on:click="loginKorisnik">
           Login Page
         </button>
@@ -25,23 +25,28 @@ Vue.component("Home", {
           Register Page
         </button>
       </div>
-      <div v-if="rola==='KUPAC'">
-        Znam da si kupac! tvoj token je {{ cookieToken }}
-        <button>
-          Ulogovani balata kupac akcija
+      <div v-else>
+        <button v-on:click="logoutKorisnik">
+          Logout
         </button>
-      </div>
-      <div v-else-if="rola==='ADMIN'">
-        Znam da si admin!
-        <button>
-          Ulogovani balata admin akcija
-        </button>
-      </div>
-      <div v-else-if="rola==='PRODAVAC'">
-        Znam da si prodavcojec!
-        <button>
-          Ulogovani balata prodavac akcija
-        </button>
+        <div v-if="rola==='KUPAC'">
+          Znam da si kupac! tvoj token je {{ cookieToken }}
+          <button>
+            Ulogovani balata kupac akcija
+          </button>
+        </div>
+        <div v-else-if="rola==='ADMIN'">
+          Znam da si admin!
+          <button>
+            Ulogovani balata admin akcija
+          </button>
+        </div>
+        <div v-else-if="rola==='PRODAVAC'">
+          Znam da si prodavcojec!
+          <button>
+            Ulogovani balata prodavac akcija
+          </button>
+        </div>
       </div>
       </div>
     `
@@ -49,6 +54,10 @@ Vue.component("Home", {
     methods: {
         loginKorisnik: function () {
             app.$router.push("/login")
+        },
+        logoutKorisnik: function () {
+            this.rola=""
+            this.cookieToken=""
         },
         registerKupac: function () {
             app.$router.push("/register")
