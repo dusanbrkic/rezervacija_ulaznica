@@ -8,7 +8,18 @@ body{
   	color: white;
 }
 
+.navbar{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #dddddd;
+}
 
+.navbar-option{
+	display: block;
+	padding: 8px;
+}
 
 #bg-div{
 	background-image: url("../RES/slicice/party.jpg");

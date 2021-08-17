@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import dao.KorisniciDAO;
 import exceptions.UnknownUsernameException;
@@ -26,7 +27,7 @@ public class KorisniciService {
 	@PostConstruct
 	public void init() {
 		if(context.getAttribute("korisniciDAO")==null) {
-			KorisniciDAO kd = new KorisniciDAO();
+			KorisniciDAO kd = new KorisniciDAO(context.getRealPath("/"));
 			context.setAttribute("korisniciDAO", kd);
 		}
 	}

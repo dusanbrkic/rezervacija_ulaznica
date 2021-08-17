@@ -11,28 +11,30 @@ import exceptions.WrongPasswordException;
 import model.*;
 import model.enums.Rola;
 
+import javax.servlet.ServletContext;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
 public class KorisniciDAO {
-    public static final String projectDir = System.getProperty("user.dir");
     public static final String fileSeparator = System.getProperty("file.separator");
+    public static String resourceDir;
 
-    private static final String kupciFileName = projectDir + fileSeparator + "WebContent" + fileSeparator
-            + "RES" + fileSeparator + "kupci.json";
-    private static final String adminiFileName = projectDir + fileSeparator + "WebContent" + fileSeparator
-            + "RES" + fileSeparator + "admini.json";
-    private static final String prodavciFileName = projectDir + fileSeparator + "WebContent" + fileSeparator
-            + "RES" + fileSeparator + "prodavci.json";
+    private static String kupciFileName;
+    private static String adminiFileName;
+    private static String prodavciFileName;
 
     private HashMap<String, Kupac> kupci;
     private HashMap<String, Prodavac> prodavci;
     private HashMap<String, Admin> admini;
 
 
-    public KorisniciDAO() {
+    public KorisniciDAO(String realPath) {
+        resourceDir = realPath;
+        kupciFileName = resourceDir + fileSeparator + "RES" + fileSeparator + "kupci.json";
+        adminiFileName = resourceDir + fileSeparator + "RES" + fileSeparator + "admini.json";
+        prodavciFileName = resourceDir + fileSeparator + "RES" + fileSeparator + "prodavci.json";
         loadKorisnici();
     }
 

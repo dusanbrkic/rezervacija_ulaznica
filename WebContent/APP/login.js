@@ -3,7 +3,8 @@ Vue.component("Login", {
         return {
             username: "",
             password: "",
-            cookie: ""
+            cookie: "",
+            role: ""
         }
     },
 
@@ -11,7 +12,7 @@ Vue.component("Login", {
       <div id="login-div">
       <link rel="stylesheet" href="CSS/login.css" type="text/css">
       <h1 id="h1-login">Log in</h1>
-      <form>
+      <form @submit.prevent="login">
         <table id="reg-table">
           <tr>
             <td>Username:</td>
@@ -25,7 +26,7 @@ Vue.component("Login", {
             <td style="text-align: center; font-size: 30px;">
               <input type="submit" v-on:click="cancel" value="Otkaži"></td>
             <td style="text-align: center; font-size: 30px;">
-              <input type="submit" v-on:click="login" value="Log in"></td>
+              <input type="submit" v-on:click="login" value="Uloguj se"></td>
           </tr>
         </table>
       </form>
@@ -45,8 +46,16 @@ Vue.component("Login", {
             await axios
                 .get("rest/korisnici/loginUser", user)
                 .then(response => (this.cookie = response.data))
+            await axios
+                .get("rest/korisnici/validateUser/" + this.cookie)
+                .then(response => (this.role = response.data))
             localStorage.setItem("cookie", this.cookie)
-            app.$router.push("/")
+            if (this.role === "KUPAC")
+                app.$router.push("/kupac")
+            else if (this.role === "ADMIN")
+                app.$router.push("/admin")
+            else if (this.role === "PRODAVAC")
+                app.$router.push("/prodavac")
         }
     }
 });
