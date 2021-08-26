@@ -8,7 +8,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import dao.KarteDAO;
 import dao.KorisniciDAO;
+import dao.ManifestacijeDAO;
 import exceptions.UnknownUsernameException;
 import exceptions.UsernameExistsException;
 import exceptions.WrongPasswordException;
@@ -29,6 +31,14 @@ public class KorisniciService {
 		if(context.getAttribute("korisniciDAO")==null) {
 			KorisniciDAO kd = new KorisniciDAO(context.getRealPath("/"));
 			context.setAttribute("korisniciDAO", kd);
+		}
+		if(context.getAttribute("karteDAO")==null) {
+			KarteDAO kard = new KarteDAO(context.getRealPath("/"));
+			context.setAttribute("korisniciDAO", kard);		
+		}
+		if(context.getAttribute("manifestacijeDAO")==null) {
+			ManifestacijeDAO md = new ManifestacijeDAO(context.getRealPath("/"));
+			context.setAttribute("manifestacijeDAO", md);
 		}
 	}
 	
