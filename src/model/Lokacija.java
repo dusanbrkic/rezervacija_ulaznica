@@ -5,6 +5,7 @@ public class Lokacija {
 	private double geografskaSirina;
 	private String adresa;
 	private Boolean deleted;
+	private String grad;
 	public Lokacija() {
 		super();
 	}
@@ -31,6 +32,12 @@ public class Lokacija {
 	}
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
+	}
+	public String getGrad() {
+		return grad;
+	}
+	public void setGrad(String grad) {
+		this.grad = grad;
 	}
 	
 }

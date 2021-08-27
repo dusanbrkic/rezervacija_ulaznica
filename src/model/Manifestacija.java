@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import model.enums.TipManifestacije;
@@ -12,9 +13,11 @@ public class Manifestacija {
 	private double regularCena;
 	private String imgPath;
 	private TipManifestacije tip;
-	private Date vremeOdrzavanja;
+	private LocalDateTime vremeOdrzavanja;
+	private Boolean rasprodata;
 	private Boolean aktivna;
 	private Boolean deleted;
+	private Lokacija lokacija;
 	public Manifestacija() {
 		super();
 	}
@@ -60,10 +63,10 @@ public class Manifestacija {
 	public void setTip(TipManifestacije tip) {
 		this.tip = tip;
 	}
-	public Date getVremeOdrzavanja() {
+	public LocalDateTime getVremeOdrzavanja() {
 		return vremeOdrzavanja;
 	}
-	public void setVremeOdrzavanja(Date vremeOdrzavanja) {
+	public void setVremeOdrzavanja(LocalDateTime vremeOdrzavanja) {
 		this.vremeOdrzavanja = vremeOdrzavanja;
 	}
 	public Boolean getAktivna() {
@@ -78,5 +81,19 @@ public class Manifestacija {
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
-	
+	public Boolean getRasprodata() {
+		return rasprodata;
+	}
+	public void setRasprodata(Boolean rasprodata) {
+		this.rasprodata = rasprodata;
+	}
+	public Lokacija getLokacija() {
+		return lokacija;
+	}
+	public void setLokacija(Lokacija lokacija) {
+		this.lokacija = lokacija;
+	}
+	public String getNazivLokacije() {
+		return this.lokacija.getAdresa()+" "+this.lokacija.getGrad();
+	}
 }
