@@ -1,0 +1,118 @@
+#filter-manifestacije-div * {
+    box-sizing: border-box;
+}
+
+#filter-manifestacije-container{
+    display: grid;
+    place-items: center;
+}
+
+#filter-manifestacije-div {
+    max-width: 1000px;
+    width: 100%;
+    margin-bottom: 20px;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    padding: 16px;
+    text-align: left;
+    background-color: #f1f1f1;
+    color: black;
+    grid-template-areas:
+            "naziv-pretraga lokacija-pretraga grad-pretraga cena-pretraga"
+            "tip-check1 tip-check2 rasprodate-div datum-pretraga"
+            "sort-option1 sort-option2 search-button-div search-button-div";
+    gap: 20px;
+}
+
+#naziv-pretraga{
+    grid-area: naziv-pretraga;
+}
+#lokacija-pretraga{
+    grid-area: lokacija-pretraga;
+}
+#grad-pretraga{
+    grid-area: grad-pretraga;
+}
+#datum-pretraga{
+    grid-area: datum-pretraga;
+}
+#cena-pretraga{
+    grid-area: cena-pretraga;
+}
+#search-button-div{
+    grid-area: search-button-div;
+}
+#tip-check1{
+    grid-area: tip-check1;
+}
+#tip-check2{
+    grid-area: tip-check2;
+}
+#sort-option1{
+    grid-area: sort-option1;
+}
+#sort-option2{
+    grid-area: sort-option2;
+}
+
+
+
+#manifestacije-div * {
+    box-sizing: border-box;
+}
+
+.row {
+    width: 100%;
+    margin-bottom: 20px;
+    display: grid;
+    place-items: center;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    padding: 16px;
+    text-align: left;
+    background-color: #f1f1f1;
+    color: black;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+            "poster naziv naziv naziv cena"
+            "poster datum datum tip cena"
+            "poster lokacija lokacija ocena cena";
+    gap: 10px;
+    max-width: 1000px;
+}
+
+#poster{
+    grid-area: poster;
+}
+#naziv{
+    grid-area: naziv;
+}
+#cena{
+    grid-area: cena;
+}
+#tip{
+    grid-area: tip;
+}
+#datum{
+    grid-area: datum;
+}
+#lokacija{
+    grid-area: lokacija;
+}
+#ocena{
+    grid-area: ocena;
+}
+
+.card > * {
+    margin-right: 25px;
+}
