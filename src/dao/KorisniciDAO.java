@@ -25,9 +25,9 @@ public class KorisniciDAO {
     private static String adminiFileName;
     private static String prodavciFileName;
 
-    private HashMap<String, Kupac> kupci;
-    private HashMap<String, Prodavac> prodavci;
-    private HashMap<String, Admin> admini;
+    public HashMap<String, Kupac> kupci;
+    public HashMap<String, Prodavac> prodavci;
+    public HashMap<String, Admin> admini;
 
 
     public KorisniciDAO(String realPath) {

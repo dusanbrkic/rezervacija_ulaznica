@@ -65,7 +65,8 @@ public class ManifestacijeService {
 									 @QueryParam("irasprodata")Boolean irasprodata,
 									 @QueryParam("sortat") ManifestacijaSortingParam sortAt
 									 ) {
-		HashMap<String , Manifestacija> manifestacije = (HashMap<String, Manifestacija>) context.getAttribute("manifestacijeDAO");
+		ManifestacijeDAO manifestacijeDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
+		HashMap<String, Manifestacija> manifestacije = (HashMap<String, Manifestacija>) manifestacijeDao.manifestacije.clone();
 		Iterator<String> iterator = manifestacije.keySet().iterator();
 		while(iterator.hasNext()) {
 			String trenutni = iterator.next();

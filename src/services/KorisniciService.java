@@ -1,5 +1,8 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +17,10 @@ import dao.ManifestacijeDAO;
 import exceptions.UnknownUsernameException;
 import exceptions.UsernameExistsException;
 import exceptions.WrongPasswordException;
+import model.Admin;
 import model.Korisnik;
 import model.Kupac;
+import model.Prodavac;
 
 @Path("/korisnici")
 public class KorisniciService {
@@ -80,5 +85,24 @@ public class KorisniciService {
 			//return error
 		}
 		return cookie;
+	}
+	
+	public Response getKorisnici() {
+		KorisniciDAO korisniciDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		HashMap<String, Kupac> kupci = (HashMap<String, Kupac>) korisniciDao.kupci.clone();
+		HashMap<String, Admin> admini = (HashMap<String, Admin>) korisniciDao.admini.clone();
+		HashMap<String, Prodavac> prodavci = (HashMap<String, Prodavac>) korisniciDao.prodavci.clone();
+		HashMap<String, Korisnik> korisnici = new HashMap<String, Korisnik>();
+		for (Kupac k : kupci.values()) {
+			korisnici.put(k.getUsername(), k);
+		}
+		for (Admin a : admini.values()) {
+			korisnici.put(a.getUsername(), a);
+		}
+		for (Prodavac p : prodavci.values()) {
+			korisnici.put(p.getUsername(), p);
+		}
+		ArrayList<Korisnik> results = (ArrayList<Korisnik>) korisnici.values();
+		return Response.status(Response.Status.OK).entity(results).build();
 	}
 }

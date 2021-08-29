@@ -17,7 +17,7 @@ public class ManifestacijeDAO {
     
     private static String manifestacijeFileName;
     
-    private static HashMap<String, Manifestacija> manifestacije;
+    public static HashMap<String, Manifestacija> manifestacije;
     
 	public ManifestacijeDAO(String realPath) {
 		resourceDir = realPath;
