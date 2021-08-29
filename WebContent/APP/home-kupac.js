@@ -1,8 +1,6 @@
-Vue.component("Home", {
+Vue.component("HomeKupac", {
     data: function () {
-        return {
-
-        }
+        return {}
     },
     mounted() {
     },
@@ -11,17 +9,15 @@ Vue.component("Home", {
       <link rel="stylesheet" href="CSS/home.css" type="text/css">
       <link rel="stylesheet" href="CSS/index.css" type="text/css">
       <ul class="navbar">
-        <li style="float: left;"><a class="navbar-option" href="#/">Manifestacije</a></li>
-        <li style="float: right;"><a class="navbar-option" href="#/login">Prijavi se</a></li>
-        <li style="float: right;"><a class="navbar-option" href="#/register">Registruj se</a></li>
+        <li style="float: left;"><a class="navbar-option" href="#/kupac">Manifestacije</a></li>
+        <li style="float: right;"><a class="navbar-option" href="#/kupac/login">Odjavi se</a></li>
+        <li style="float: right;"><a class="navbar-option" href="#/kupac/profil">Moj Profil</a></li>
       </ul>
       Dobrodosli u najjacu aplikaciju za rezervaciju ulaznica na Balkanu!
-      
+
       <router-view/>
       </div>
     `
     ,
-    methods: {
-
-    }
+    methods: {}
 });

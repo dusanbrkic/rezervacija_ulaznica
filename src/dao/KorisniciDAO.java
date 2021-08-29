@@ -19,7 +19,7 @@ import java.util.*;
 
 public class KorisniciDAO {
     public static final String fileSeparator = System.getProperty("file.separator");
-    public static String resourceDir;
+    public static String resourceDir; //webcontent dir
 
     private static String kupciFileName;
     private static String adminiFileName;
@@ -143,5 +143,33 @@ public class KorisniciDAO {
             throw new UnknownUsernameException();
         }
         throw new WrongPasswordException();
+    }
+
+    public Korisnik findByCookie(String token){
+        Map<String, String> parsedToken;
+        try {
+            parsedToken = CookieToken.parseToken(token);
+        } catch (CookieParseException e) {
+            return null;
+        }
+        String usn = parsedToken.get("username");
+        String pass = parsedToken.get("password");
+        if (kupci.containsKey(usn)) {
+            Kupac k = kupci.get(usn);
+            if (k.getPassword().equals(pass)) {
+                return k;
+            }
+        } else if (admini.containsKey(usn)) {
+            Admin a = admini.get(usn);
+            if (a.getPassword().equals(pass)) {
+                return a;
+            }
+        } else if (prodavci.containsKey(usn)) {
+            Prodavac p = prodavci.get(usn);
+            if (p.getPassword().equals(pass)) {
+                return p;
+            }
+        }
+        return null;
     }
 }
