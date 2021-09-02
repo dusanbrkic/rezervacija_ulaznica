@@ -11,7 +11,7 @@ public class Manifestacija {
 	private int brojMesta;
 	private int brojSlobodnihMesta;
 	private double regularCena;
-	private String imgPath;
+	private String poster;
 	private TipManifestacije tip;
 	private LocalDateTime vremeOdrzavanja;
 	private Boolean rasprodata;
@@ -52,10 +52,10 @@ public class Manifestacija {
 		this.regularCena = regularCena;
 	}
 	public String getImgPath() {
-		return imgPath;
+		return poster;
 	}
 	public void setImgPath(String imgPath) {
-		this.imgPath = imgPath;
+		this.poster = imgPath;
 	}
 	public TipManifestacije getTip() {
 		return tip;

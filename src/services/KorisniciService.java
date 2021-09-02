@@ -1,7 +1,9 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -86,8 +88,35 @@ public class KorisniciService {
 		}
 		return cookie;
 	}
+	@GET
+	@Path("/getKupci")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getKupci(
+				@QueryParam("ime") String ime,
+				@QueryParam("prezime") String prezime,
+				@QueryParam("username") String username,
+				@QueryParam("password") String password) {
+		KorisniciDAO korisniciDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		HashMap<String, Kupac> kupci = (HashMap<String, Kupac>) korisniciDao.kupci.clone();
+		Iterator<String> iterator = kupci.keySet().iterator();
+		while(iterator.hasNext()) {
+			String trenutni = iterator.next();
+			Kupac k = kupci.get(trenutni);
+			if(k.getDeleted()) {
+				iterator.remove();
+				continue;
+			}
+		}
+		Collection<Kupac> ckupci = kupci.values();
+		ArrayList<Kupac> results = new ArrayList<Kupac>(ckupci);
+		return Response.status(Response.Status.OK).entity(results).build();
+	}
 	
-	public Response getKorisnici() {
+	public Response getKorisnici(
+								@QueryParam("ime") String ime,
+								@QueryParam("prezime") String prezime,
+								@QueryParam("username") String username,
+								@QueryParam("password") String password) {
 		KorisniciDAO korisniciDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
 		HashMap<String, Kupac> kupci = (HashMap<String, Kupac>) korisniciDao.kupci.clone();
 		HashMap<String, Admin> admini = (HashMap<String, Admin>) korisniciDao.admini.clone();

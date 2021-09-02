@@ -63,7 +63,7 @@ public class ManifestacijeService {
 	 								 @QueryParam("cenaod") Double cenaOd,
 	 								 @QueryParam("cenado") Double cenaDo,
 									 @QueryParam("tip") TipManifestacije tip, 
-									 @QueryParam("irasprodata")Boolean irasprodata,
+									 @QueryParam("rasprodate")Boolean rasprodate,//true - samo rasprodate false - samo nerasprodate null-sve
 									 @QueryParam("sortat") ManifestacijaSortingParam sortAt
 									 ) {
 		LocalDateTime datumOd = LocalDateTime.parse(sdatumOd, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
@@ -74,6 +74,10 @@ public class ManifestacijeService {
 		while(iterator.hasNext()) {
 			String trenutni = iterator.next();
 			Manifestacija mf = manifestacije.get(trenutni);
+			if(mf.getDeleted()) {
+				iterator.remove();
+				continue;
+			}
 			if(mf.getNaziv().toLowerCase().contains(naziv.toLowerCase())){
 				iterator.remove();
 				continue;
@@ -102,13 +106,22 @@ public class ManifestacijeService {
 				}
 				
 			}
-			if(irasprodata == false) {
-				if(mf.getRasprodata()==true) {
-					iterator.remove();
-					continue;
-				}
+			if(rasprodate == null) {
+				continue;
 			}
-		}
+				else if(rasprodate = true ) {
+					if(mf.getRasprodata()==false) {
+						iterator.remove();
+						continue;
+					}
+				}else {
+					if(mf.getRasprodata()==true) {
+						iterator.remove();
+						continue;
+					}
+				}
+				
+			}
 		ArrayList<Manifestacija> results = (ArrayList<Manifestacija>) manifestacije.values();
 		switch(sortAt) {
 		case NAZIVASC : results.sort(Comparator.comparing(Manifestacija::getNaziv));
