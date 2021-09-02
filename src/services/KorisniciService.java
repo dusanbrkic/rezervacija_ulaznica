@@ -2,6 +2,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -23,6 +24,7 @@ import model.Admin;
 import model.Korisnik;
 import model.Kupac;
 import model.Prodavac;
+import model.enums.KupciSortingParam;
 
 @Path("/korisnici")
 public class KorisniciService {
@@ -95,10 +97,12 @@ public class KorisniciService {
 				@QueryParam("ime") String ime,
 				@QueryParam("prezime") String prezime,
 				@QueryParam("username") String username,
-				@QueryParam("password") String password) {
+				@QueryParam("sortat") KupciSortingParam sortAt 
+				) {
 		KorisniciDAO korisniciDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
 		HashMap<String, Kupac> kupci = (HashMap<String, Kupac>) korisniciDao.kupci.clone();
 		Iterator<String> iterator = kupci.keySet().iterator();
+		//System.out.println(username);
 		while(iterator.hasNext()) {
 			String trenutni = iterator.next();
 			Kupac k = kupci.get(trenutni);
@@ -106,9 +110,46 @@ public class KorisniciService {
 				iterator.remove();
 				continue;
 			}
+			if(!k.getIme().toLowerCase().contains(ime.toLowerCase())) {
+				iterator.remove();
+				continue;
+			}
+			if(!k.getPrezime().toLowerCase().contains(prezime.toLowerCase())) {
+				iterator.remove();
+				continue;
+			}
+			if(!k.getUsername().toLowerCase().contains(username.toLowerCase())) {
+				iterator.remove();
+				continue;
+			}
+			
 		}
 		Collection<Kupac> ckupci = kupci.values();
 		ArrayList<Kupac> results = new ArrayList<Kupac>(ckupci);
+		if(sortAt==null) {
+			sortAt = KupciSortingParam.NISTA;
+		}
+		switch(sortAt) {
+		case IMEASC : results.sort(Comparator.comparing(Kupac::getIme));
+			break;
+		case IMEDESC : results.sort(Comparator.comparing(Kupac::getIme).reversed());
+			break;
+		case PREZIMEASC : results.sort(Comparator.comparing(Kupac::getPrezime));
+			break;
+		case PREZIMEDESC : results.sort(Comparator.comparing(Kupac::getPrezime).reversed());
+			break;
+		case USERNAMEASC : results.sort(Comparator.comparing(Kupac::getUsername));
+			break;
+		case USERNAMEDESC : results.sort(Comparator.comparing(Kupac::getUsername).reversed());
+			break;
+		case BODOVIASC : results.sort(Comparator.comparing(Kupac::getBrojBodova));
+			break;
+		case BODOVIDESC : results.sort(Comparator.comparing(Kupac::getBrojBodova).reversed());
+			break;
+		}
+		
+		
+		
 		return Response.status(Response.Status.OK).entity(results).build();
 	}
 	

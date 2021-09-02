@@ -78,11 +78,11 @@ public class ManifestacijeService {
 				iterator.remove();
 				continue;
 			}
-			if(mf.getNaziv().toLowerCase().contains(naziv.toLowerCase())){
+			if(!mf.getNaziv().toLowerCase().contains(naziv.toLowerCase())){
 				iterator.remove();
 				continue;
 			}
-			if(mf.getLokacija().getAdresa().toLowerCase().contains(lokacija.toLowerCase())){
+			if(!mf.getLokacija().getAdresa().toLowerCase().contains(lokacija.toLowerCase())){
 				iterator.remove();
 				continue;
 			}

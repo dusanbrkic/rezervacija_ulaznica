@@ -1,0 +1,5 @@
+package model.enums;
+
+public enum KupciSortingParam {
+	NISTA, IMEASC, IMEDESC, PREZIMEASC, PREZIMEDESC, USERNAMEASC, USERNAMEDESC, BODOVIASC, BODOVIDESC
+}
