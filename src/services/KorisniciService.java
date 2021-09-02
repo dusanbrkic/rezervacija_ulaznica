@@ -39,7 +39,7 @@ public class KorisniciService {
 		}
 		if(context.getAttribute("karteDAO")==null) {
 			KarteDAO kard = new KarteDAO(context.getRealPath("/"));
-			context.setAttribute("korisniciDAO", kard);		
+			context.setAttribute("karteDAO", kard);		
 		}
 		if(context.getAttribute("manifestacijeDAO")==null) {
 			ManifestacijeDAO md = new ManifestacijeDAO(context.getRealPath("/"));

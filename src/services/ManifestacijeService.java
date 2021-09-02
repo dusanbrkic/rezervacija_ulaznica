@@ -1,6 +1,7 @@
 package services;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -43,7 +44,7 @@ public class ManifestacijeService {
 		}
 		if(context.getAttribute("karteDAO")==null) {
 			KarteDAO kard = new KarteDAO(context.getRealPath("/"));
-			context.setAttribute("korisniciDAO", kard);		
+			context.setAttribute("karteDAO", kard);		
 		}
 		if(context.getAttribute("manifestacijeDAO")==null) {
 			ManifestacijeDAO md = new ManifestacijeDAO(context.getRealPath("/"));
@@ -52,12 +53,12 @@ public class ManifestacijeService {
 	}
 	@GET
 	@Path("/getManifestacije")
-	@Consumes(MediaType.APPLICATION_JSON)
+	//@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getManifestacije(@QueryParam("naziv") String naziv,
 			 						 @QueryParam("lokacija") String lokacija,
-									 @QueryParam("datumod") LocalDateTime datumOd,
-	 								 @QueryParam("datumdo") LocalDateTime datumDo,
+									 @QueryParam("datumod") String sdatumOd,
+	 								 @QueryParam("datumdo") String sdatumDo,
 	 								 @QueryParam("lokacijaGd") String lokacijaGd, 
 	 								 @QueryParam("cenaod") Double cenaOd,
 	 								 @QueryParam("cenado") Double cenaDo,
@@ -65,6 +66,8 @@ public class ManifestacijeService {
 									 @QueryParam("irasprodata")Boolean irasprodata,
 									 @QueryParam("sortat") ManifestacijaSortingParam sortAt
 									 ) {
+		LocalDateTime datumOd = LocalDateTime.parse(sdatumOd, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+		LocalDateTime datumDo = LocalDateTime.parse(sdatumDo, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 		ManifestacijeDAO manifestacijeDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
 		HashMap<String, Manifestacija> manifestacije = (HashMap<String, Manifestacija>) manifestacijeDao.manifestacije.clone();
 		Iterator<String> iterator = manifestacije.keySet().iterator();
