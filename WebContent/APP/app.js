@@ -7,8 +7,8 @@ const Register = {template: '<Register></Register>'}
 const HomeKupac = {template: '<HomeKupac></HomeKupac>'} //navbar
 
 //prodavac
-// const HomeProdavac = {template: '<HomeKupac></HomeKupac>'} //navbar
-// const ManifestacijaForma = {template: '<ManifestacijaForma></ManifestacijaForma>'} //dodavanje manifestacije
+const HomeProdavac = {template: '<HomeKupac></HomeKupac>'} //navbar
+const ManifestacijaForma = {template: '<ManifestacijaForma></ManifestacijaForma>'} //dodavanje manifestacije
 
 //admin
 // const HomeAdmin = {template: '<HomeAdmin></HomeAdmin>'} //navbar
@@ -40,15 +40,15 @@ const router = new VueRouter({
                 // {path: 'manifestacija:id', component: Manifestacija},
             ]
         },
-        // {
-        //     path: '/prodavac', component: HomeProdavac, children: [
-        //         {path: '/', component: Manifestacije},
+        {
+            path: '/prodavac', component: HomeProdavac, children: [
+                {path: '/', component: Manifestacije},
         //         {path: 'karte', component: Karte},
         //         {path: 'profil', component: Profil},
-        //         {path: 'manifestacijaForma', component: ManifestacijaForma},
+                {path: 'registrujManifestaciju', component: ManifestacijaForma},
         //         {path: 'manifestacija:id', component: Manifestacija},
-        //     ]
-        // },
+            ]
+        },
         // {
         //     path: '/admin', component: HomeAdmin, children: [
         //         {path: '/', component: Manifestacije},

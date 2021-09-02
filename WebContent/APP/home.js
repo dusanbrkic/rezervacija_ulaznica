@@ -15,7 +15,6 @@ Vue.component("Home", {
         <li style="float: right;"><a class="navbar-option" href="#/login">Prijavi se</a></li>
         <li style="float: right;"><a class="navbar-option" href="#/register">Registruj se</a></li>
       </ul>
-      Dobrodosli u najjacu aplikaciju za rezervaciju ulaznica na Balkanu!
       
       <router-view/>
       </div>

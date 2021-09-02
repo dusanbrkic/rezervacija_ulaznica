@@ -47,7 +47,7 @@ Vue.component("Login", {
                 .get("rest/korisnici/loginUser", user)
                 .then(response => (this.cookie = response.data))
             await axios
-                .get("rest/korisnici/validateUser/" + this.cookie)
+                .get("rest/korisnici/validateUser" + this.cookie)
                 .then(response => (this.role = response.data))
             localStorage.setItem("cookie", this.cookie)
             if (this.role === "KUPAC")

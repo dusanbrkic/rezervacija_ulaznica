@@ -1,18 +1,4 @@
 {
-  "": {
-    "username": "",
-    "password": "",
-    "ime": "",
-    "prezime": "",
-    "datumRodjenja": null,
-    "uloga": "KUPAC",
-    "pol": "MUSKI",
-    "blocked": false,
-    "deleted": false,
-    "cookieToken": "-",
-    "karte": [],
-    "brojBodova": 0
-  },
   "w21qedds": {
     "username": "w21qedds",
     "password": "2w1qd",
@@ -248,20 +234,6 @@
     "blocked": false,
     "deleted": false,
     "cookieToken": "sadx:xasz",
-    "karte": [],
-    "brojBodova": 0
-  },
-  "dusan": {
-    "username": "dusan",
-    "password": "dusan",
-    "ime": "",
-    "prezime": "",
-    "datumRodjenja": null,
-    "uloga": "KUPAC",
-    "pol": "MUSKI",
-    "blocked": false,
-    "deleted": false,
-    "cookieToken": "dusan-dusan",
     "karte": [],
     "brojBodova": 0
   },

@@ -13,11 +13,11 @@ Vue.component("Manifestacije", {
                 max: 20000,
                 values: [1000, 20000],
                 slide: function (event, ui) {
-                    $("#amount").val(ui.values[0] + "RSD - " + ui.values[1] + "RSD");
+                    $("#amount").val(ui.values[0] + " RSD - " + ui.values[1] + " RSD");
                 }
             });
             $("#amount").val($("#slider-range").slider("values", 0) +
-                "RSD - " + $("#slider-range").slider("values", 1) + "RSD");
+                " RSD - " + $("#slider-range").slider("values", 1) + " RSD");
         });
         $(function () {
             $('input[name="datetimes"]').daterangepicker({
@@ -84,10 +84,10 @@ Vue.component("Manifestacije", {
           </div>
           <div id="sort-option1">
             <select>
-              <option value="0">Soritaj po:</option>
-              <option value="1">Naziv</option>
-              <option value="2">Datum</option>
-              <option value="3">Cena</option>
+              <option disabled value="">Soritaj po:</option>
+              <option value="0">Naziv</option>
+              <option value="1">Datum</option>
+              <option value="2">Cena</option>
               <option value="3">Lokacija</option>
             </select>
           </div>
@@ -112,7 +112,7 @@ Vue.component("Manifestacije", {
             <div id="datum">datum i vreme</div>
             <div id="lokacija">lokacija</div>
             <div id="poster" style="width: 150px; height: 200px">
-              <img src="./RES/slicice/posteri/2021_poster.jpg" alt="poster"
+              <img src="./RES/slicice/posteri/exit_poster.jpg" alt="poster"
                    style="height: auto;width: 100%; max-height: 200px">
             </div>
             <div id="cena" style="display: table; height:100%; overflow: hidden;">
@@ -127,7 +127,7 @@ Vue.component("Manifestacije", {
     ,
     methods: {
         pregledManifestacije: function () {
-
+            $('input[name="datetimes"]').data('daterangepicker').setStartDate('03/01/2014')
         }
     }
 });

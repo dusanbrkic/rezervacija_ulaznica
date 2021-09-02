@@ -13,7 +13,6 @@ Vue.component("HomeKupac", {
         <li style="float: right;"><a class="navbar-option" href="#/kupac/login">Odjavi se</a></li>
         <li style="float: right;"><a class="navbar-option" href="#/kupac/profil">Moj Profil</a></li>
       </ul>
-      Dobrodosli u najjacu aplikaciju za rezervaciju ulaznica na Balkanu!
 
       <router-view/>
       </div>

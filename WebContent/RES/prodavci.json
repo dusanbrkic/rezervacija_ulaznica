@@ -1,1 +1,16 @@
-{}
+{
+  "dusan": {
+    "username": "dusan",
+    "password": "dusan",
+    "ime": "",
+    "prezime": "",
+    "datumRodjenja": null,
+    "uloga": "PRODAVAC",
+    "pol": "MUSKI",
+    "blocked": false,
+    "deleted": false,
+    "cookieToken": "dusan-dusan",
+    "karte": [],
+    "brojBodova": 0
+  }
+}

@@ -11,6 +11,7 @@
     max-width: 1000px;
     width: 100%;
     margin-bottom: 20px;
+    margin-top: 20px;
     display: grid;
     place-items: center;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
@@ -54,12 +55,6 @@
 }
 #sort-option2{
     grid-area: sort-option2;
-}
-
-
-
-#manifestacije-div * {
-    box-sizing: border-box;
 }
 
 .row {
