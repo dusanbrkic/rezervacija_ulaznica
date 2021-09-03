@@ -57,20 +57,20 @@ Vue.component("ManifestacijaForma", {
             <td><input type="text" v-model="grad"></td>
           </tr>
           <tr>
-            <td style="text-align: center; font-size: 30px;">
-              <input type="submit" v-on:click="cancel" value="Otkaži"></td>
-          </tr>
-          <tr>
-            <td style="text-align: center; font-size: 30px;">
-              <input type="submit" v-on:click="submit" value="Registruj manifestaciju"></td>
-          </tr>
-          <tr>
             <td>
-              <label for="poster_input">Izaberite poster manifestacije:</label>
+              Izaberite poster manifestacije:
+            </td>
+            <td>
               <input type="file"
                      id="poster_input" name="poster"
                      accept="image/png, image/jpeg">
             </td>
+          </tr>
+          <tr>
+            <td style="text-align: center; font-size: 30px;">
+              <input type="submit" v-on:click="cancel" value="Otkaži"></td>
+            <td style="text-align: center; font-size: 30px;">
+              <input type="submit" v-on:click="submit" value="Registruj manifestaciju"></td>
           </tr>
         </table>
       </form>

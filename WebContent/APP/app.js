@@ -7,7 +7,7 @@ const Register = {template: '<Register></Register>'}
 const HomeKupac = {template: '<HomeKupac></HomeKupac>'} //navbar
 
 //prodavac
-const HomeProdavac = {template: '<HomeKupac></HomeKupac>'} //navbar
+const HomeProdavac = {template: '<HomeProdavac></HomeProdavac>'} //navbar
 const ManifestacijaForma = {template: '<ManifestacijaForma></ManifestacijaForma>'} //dodavanje manifestacije
 
 //admin

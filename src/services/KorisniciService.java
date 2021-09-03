@@ -17,21 +17,20 @@ import javax.ws.rs.core.Response;
 import dao.KarteDAO;
 import dao.KorisniciDAO;
 import dao.ManifestacijeDAO;
-import exceptions.UnknownUsernameException;
-import exceptions.UsernameExistsException;
-import exceptions.WrongPasswordException;
+import exceptions.*;
 import model.Admin;
 import model.Korisnik;
 import model.Kupac;
 import model.Prodavac;
 import model.enums.KupciSortingParam;
+import model.enums.Rola;
 
 @Path("/korisnici")
 public class KorisniciService {
-	
+
 	@Context
 	ServletContext context;
-	
+
 	@Context
 	HttpServletRequest request;
 
@@ -43,14 +42,14 @@ public class KorisniciService {
 		}
 		if(context.getAttribute("karteDAO")==null) {
 			KarteDAO kard = new KarteDAO(context.getRealPath("/"));
-			context.setAttribute("karteDAO", kard);		
+			context.setAttribute("karteDAO", kard);
 		}
 		if(context.getAttribute("manifestacijeDAO")==null) {
 			ManifestacijeDAO md = new ManifestacijeDAO(context.getRealPath("/"));
 			context.setAttribute("manifestacijeDAO", md);
 		}
 	}
-	
+
 	@POST
 	@Path("/registracijaKupca")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -69,9 +68,15 @@ public class KorisniciService {
 	@Path("/validateUser/{cookie}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String validateUser(@PathParam("cookie") String cookie) {
+	public Response validateUser(@PathParam("cookie") String cookie) {
 		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
-		return kd.validateUser(cookie);
+		Rola rola = null;
+		try {
+			rola = kd.validateUser(cookie);
+		} catch (InvalidTokenException e) {
+			return Response.status(Response.Status.BAD_REQUEST).entity("Sesija je istekla").build();
+		}
+		return Response.status(Response.Status.OK).entity(rola).build();
 	}
 	@GET
 	@Path("/loginUser")
@@ -97,7 +102,7 @@ public class KorisniciService {
 				@QueryParam("ime") String ime,
 				@QueryParam("prezime") String prezime,
 				@QueryParam("username") String username,
-				@QueryParam("sortat") KupciSortingParam sortAt 
+				@QueryParam("sortat") KupciSortingParam sortAt
 				) {
 		KorisniciDAO korisniciDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
 		HashMap<String, Kupac> kupci = (HashMap<String, Kupac>) korisniciDao.kupci.clone();
@@ -122,7 +127,7 @@ public class KorisniciService {
 				iterator.remove();
 				continue;
 			}
-			
+
 		}
 		Collection<Kupac> ckupci = kupci.values();
 		ArrayList<Kupac> results = new ArrayList<Kupac>(ckupci);
@@ -147,12 +152,12 @@ public class KorisniciService {
 		case BODOVIDESC : results.sort(Comparator.comparing(Kupac::getBrojBodova).reversed());
 			break;
 		}
-		
-		
-		
+
+
+
 		return Response.status(Response.Status.OK).entity(results).build();
 	}
-	
+
 	public Response getKorisnici(
 								@QueryParam("ime") String ime,
 								@QueryParam("prezime") String prezime,

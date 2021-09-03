@@ -4,10 +4,7 @@ package dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import exceptions.CookieParseException;
-import exceptions.UnknownUsernameException;
-import exceptions.UsernameExistsException;
-import exceptions.WrongPasswordException;
+import exceptions.*;
 import model.*;
 import model.enums.Rola;
 
@@ -66,11 +63,11 @@ public class KorisniciDAO {
         TypeReference<HashMap<String, Kupac>> kupciRef
                 = new TypeReference<HashMap<String, Kupac>>() {
         };
-        TypeReference<HashMap<String, Kupac>> adminiRef
-                = new TypeReference<HashMap<String, Kupac>>() {
+        TypeReference<HashMap<String, Admin>> adminiRef
+                = new TypeReference<HashMap<String, Admin>>() {
         };
-        TypeReference<HashMap<String, Kupac>> prodavciRef
-                = new TypeReference<HashMap<String, Kupac>>() {
+        TypeReference<HashMap<String, Prodavac>> prodavciRef
+                = new TypeReference<HashMap<String, Prodavac>>() {
         };
         try {
             kupci = new ObjectMapper().readValue(new FileReader(kupciFileName), kupciRef);
@@ -95,32 +92,32 @@ public class KorisniciDAO {
         return k.getCookieToken();
     }
 
-    public String validateUser(String token) {
+    public Rola validateUser(String token) throws InvalidTokenException {
         Map<String, String> parsedToken;
         try {
             parsedToken = CookieToken.parseToken(token);
         } catch (CookieParseException e) {
-            return "";
+            throw new InvalidTokenException();
         }
         String usn = parsedToken.get("username");
         String pass = parsedToken.get("password");
         if (kupci.containsKey(usn)) {
             Kupac k = kupci.get(usn);
             if (k.getPassword().equals(pass)) {
-                return "KUPAC";
+                return Rola.KUPAC;
             }
         } else if (admini.containsKey(usn)) {
             Admin a = admini.get(usn);
             if (a.getPassword().equals(pass)) {
-                return "ADMIN";
+                return Rola.ADMIN;
             }
         } else if (prodavci.containsKey(usn)) {
             Prodavac p = prodavci.get(usn);
             if (p.getPassword().equals(pass)) {
-                return "PRODAVAC";
+                return Rola.PRODAVAC;
             }
         }
-        return "";
+        throw new InvalidTokenException();
     }
 
     public String loginUser(String username, String password) throws WrongPasswordException, UnknownUsernameException {
