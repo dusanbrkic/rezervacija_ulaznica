@@ -14,7 +14,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -24,6 +26,7 @@ import javax.ws.rs.core.Response;
 import dao.KarteDAO;
 import dao.KorisniciDAO;
 import dao.ManifestacijeDAO;
+import model.Korisnik;
 import model.Manifestacija;
 import model.enums.ManifestacijaSortingParam;
 import model.enums.TipManifestacije;
@@ -142,5 +145,17 @@ public class ManifestacijeService {
 		break;
 		}
 		return Response.status(Response.Status.OK).entity(results).build();
+	}
+	@POST
+	@Path("/dodajManifestaciju/{cookie}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response dodajManifestaciju(Manifestacija mf, @PathParam("cookie") String cookie) {
+		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
+		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		Korisnik k = kDao.getKorisnik(cookie);
+		if(k==null) {
+			return Response.status(Response.Status.OK).build();
+		}
+		return Response.status(Response.Status.OK).build();
 	}
 }
