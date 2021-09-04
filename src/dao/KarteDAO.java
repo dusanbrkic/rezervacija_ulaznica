@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import model.Karta;
 import model.Kupac;
+import model.Manifestacija;
+import model.enums.StatusKarte;
+import model.enums.TipKarte;
 
 public class KarteDAO {
 	public static final String fileSeparator = System.getProperty("file.separator");
@@ -18,7 +21,7 @@ public class KarteDAO {
     private static String karteFileName;
     
     private static HashMap<String, Karta> karte;
-    
+    private static int sequencer = 1000000000;
 	public KarteDAO(String realPath) {
 		resourceDir = realPath;
         karteFileName = resourceDir + fileSeparator + "RES" + fileSeparator + "karte.json";
@@ -41,7 +44,28 @@ public class KarteDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+		sequencer+= karte.size();
 
+	}
+	
+	public Karta dodajKartu(Kupac kp , Manifestacija mf, TipKarte tip) {
+		Karta k = new Karta();
+		k.setId(Integer.toString(sequencer+1));
+		k.setKupac(kp.getUsername());
+		k.setManifestacija(mf.getId());
+		k.setProdavac(mf.getProdavac());
+		k.setStatus(StatusKarte.REZERVISANA);
+		k.setTip(tip);
+		switch(tip) {
+		case VIP : k.setCena(mf.getRegularCena()*4);
+			break;
+		case FAN_PIT : k.setCena(mf.getRegularCena()*2);
+			break;
+		case REGULAR : k.setCena(mf.getRegularCena());
+			break;
+		}
+		karte.put(k.getId(), k);
+		return k;
 	}
 
 }

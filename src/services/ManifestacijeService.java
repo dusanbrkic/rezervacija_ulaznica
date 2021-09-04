@@ -150,7 +150,10 @@ public class ManifestacijeService {
 	@POST
 	@Path("/dodajManifestaciju/{cookie}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response dodajManifestaciju(Manifestacija mf, @PathParam("cookie") String cookie) {
+	public Response dodajManifestaciju(Manifestacija mf, @PathParam("cookie") String cookie,
+			@QueryParam("vreme") String svreme) {
+		LocalDateTime vreme = LocalDateTime.parse(svreme, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+		mf.setVremeOdrzavanja(vreme);
 		if(mf.getNaziv()==null || mf.getVremeOdrzavanja()==null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}

@@ -17,6 +17,7 @@ public class Karta {
 	public Karta() {
 		super();
 	}
+	
 	public String getId() {
 		return id;
 	}
