@@ -24,9 +24,9 @@ Vue.component("Login", {
           </tr>
           <tr>
             <td style="text-align: center; font-size: 30px;">
-              <input type="submit" v-on:click="cancel" value="Otkaži"></td>
+              <input v-on:click="cancel" value="Otkaži"></td>
             <td style="text-align: center; font-size: 30px;">
-              <input type="submit" v-on:click="login" value="Uloguj se"></td>
+              <input type="submit" value="Uloguj se"></td>
           </tr>
         </table>
       </form>
@@ -47,7 +47,7 @@ Vue.component("Login", {
                 .get("rest/korisnici/loginUser", user)
                 .then(response => (this.cookie = response.data))
             await axios
-                .get("rest/korisnici/validateUser" + this.cookie)
+                .get("rest/korisnici/validateUser/" + this.cookie)
                 .then(response => (this.role = response.data))
             localStorage.setItem("cookie", this.cookie)
             if (this.role === "KUPAC")

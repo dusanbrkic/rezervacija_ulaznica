@@ -16,7 +16,7 @@ Vue.component("Register", {
       <div id="register-div">
       <link rel="stylesheet" href="CSS/register.css" type="text/css">
       <h1 id="h1-register">Registracija</h1>
-      <form>
+      <form @submit.prevent="submit">
         <table id="reg-table">
           <tr>
             <td>Ime:</td>
@@ -50,7 +50,7 @@ Vue.component("Register", {
           </tr>
           <tr>
             <td style="text-align: center; font-size: 30px;">
-              <input type="submit" v-on:click="cancel" value="Otkaži"></td>
+              <input v-on:click="cancel" value="Otkaži"></td>
             <td style="text-align: center; font-size: 30px;">
               <input type="submit" v-on:click="submit" value="Registruj se"></td>
           </tr>

@@ -1,7 +1,17 @@
 Vue.component("Manifestacije", {
     data: function () {
         return {
-            cookie: ""
+            manifestacije: [],
+            cookie: "",
+            maxPriceManifestacija: null,
+            minPriceManifestacija: null,
+            naziv: "",
+            checkedTipovi: ["KONCERT", "POZORISTE", "FESTIVAL", "OSTALO"],
+            checkedRasprodate: null,
+            adresa: "",
+            grad: "",
+            sort1: "VREME",
+            sort2: "ASC",
         }
     },
     mounted() {
@@ -33,10 +43,10 @@ Vue.component("Manifestacije", {
     template: `
       <div>
       <div id="filter-manifestacije-container">
-        <div id="filter-manifestacije-div">
-          <input id="naziv-pretraga" type="text" placeholder="Naziv.."/>
-          <input id="lokacija-pretraga" type="text" placeholder="Lokacija.."/>
-          <input id="grad-pretraga" type="text" placeholder="Grad.."/>
+        <form @submit.prevent="search" id="filter-manifestacije-div">
+          <input id="naziv-pretraga" type="text" placeholder="Naziv.." v-model="naziv">
+          <input id="adresa-pretraga" type="text" placeholder="Lokacija.." v-model="adresa">
+          <input id="grad-pretraga" type="text" placeholder="Grad.." v-model="grad">
           <div id="cena-pretraga">
             <p>
               <label for="amount">Cena:</label>
@@ -46,35 +56,35 @@ Vue.component("Manifestacije", {
           </div>
           <div id="tip-check1">
             <label style="display: block;">
-              <input type="checkbox" checked="checked">
+              <input v-model="checkedTipovi" type="checkbox" checked="checked" value="KONCERT">
               Koncert
             </label>
             <label style="display: block;">
-              <input type="checkbox" checked="checked">
+              <input v-model="checkedTipovi" type="checkbox" checked="checked" value="POZORISTE">
               Pozoriste
             </label>
           </div>
           <div id="tip-check2">
             <label style="display: block;">
-              <input type="checkbox" checked="checked">
+              <input type="checkbox" checked="checked" v-model="checkedTipovi" value="FESTIVAL">
               Festival
             </label>
             <label style="display: block;">
-              <input type="checkbox" checked="checked">
+              <input type="checkbox" checked="checked" v-model="checkedTipovi" value="OSTALO">
               Ostalo
             </label>
           </div>
           <div id="rasprodate-div">
             <label style="display: block;">
-              <input type="radio" checked="checked" name="rasprodate">
+              <input type="radio" checked="checked" name="rasprodate" v-model="checkedRasprodate" value=null>
               Sve
             </label>
             <label style="display: block;">
-              <input type="radio" name="rasprodate">
+              <input type="radio" name="rasprodate" v-model="checkedRasprodate" value=false>
               Nerasprodate
             </label>
             <label style="display: block;">
-              <input type="radio" name="rasprodate">
+              <input type="radio" name="rasprodate" v-model="checkedRasprodate" value=true>
               Rasprodate
             </label>
           </div>
@@ -83,37 +93,38 @@ Vue.component("Manifestacije", {
             <input id="datetimerange" type="text" name="datetimes"/>
           </div>
           <div id="sort-option1">
-            <select>
+            <select v-model="sort1">
               <option disabled value="">Soritaj po:</option>
-              <option value="0">Naziv</option>
-              <option value="1">Datum</option>
-              <option value="2">Cena</option>
-              <option value="3">Lokacija</option>
+              <option value="NAZIV">Naziv</option>
+              <option value="VREME">Datum</option>
+              <option value="CENA">Cena</option>
+              <option value="LOKACIJA">Lokacija</option>
             </select>
           </div>
           <div id="sort-option2">
-            <select>
-              <option value="0">Opadajuce</option>
-              <option value="1">Rastuce</option>
+            <select v-model="sort2">
+              <option value="DESC">Opadajuce</option>
+              <option value="ASC">Rastuce</option>
             </select>
           </div>
           <div id="search-button-div" style="display: grid; place-items: center;">
-            <button>Pretrazi</button>
+            <input type="submit" value="Pretrazi">
           </div>
-
-        </div>
+        </form>
       </div>
+
       <div id="manifestacije-div">
         <link rel="stylesheet" href="CSS/manifestacije.css" type="text/css">
-        <div class="row" v-for="i in [1,2,3,4,5]">
+        <div class="row" v-for="m in manifestacije">
           <div class="card">
-            <div id="naziv"><a v-on:click="pregledManifestacije" style="color: blue; cursor: pointer;">Naziv</a></div>
-            <div id="tip">Tip manifestacije</div>
-            <div id="datum">datum i vreme</div>
-            <div id="lokacija">lokacija</div>
+            <div id="naziv"><a v-on:click="pregledManifestacije" style="color: blue; cursor: pointer;">{m.naziv}</a>
+            </div>
+            <div id="tip">{m.tip}</div>
+            <div id="datum">{ moment(String(m.vreme)).format("DD/MM/YYYY HH:mm") }</div>
+            <div id="lokacija">{m.grad} {m.adresa}</div>
             <div id="poster" style="width: 150px; height: 200px">
-              <img src="./RES/slicice/posteri/exit_poster.jpg" alt="poster"
-                   style="height: auto;width: 100%; max-height: 200px">
+            <img :src="m.poster" alt="poster"
+                   style="height: auto;width: 100%; max-height: 200px"> <!-- ./RES/slicice/posteri/exit_poster.jpg -->
             </div>
             <div id="cena" style="display: table; height:100%; overflow: hidden;">
               <div style="display: table-cell; vertical-align: middle; text-align: center;">ii iii RSD</div>
@@ -128,6 +139,30 @@ Vue.component("Manifestacije", {
     methods: {
         pregledManifestacije: function () {
             $('input[name="datetimes"]').data('daterangepicker').setStartDate('03/01/2014')
+        },
+        search: function () {
+            let opcijePretrage = {
+                params: {
+                    naziv: this.naziv,
+                    lokacija: this.adresa,
+                    datumod: new Date($('input[name="datetimes"]').data('daterangepicker').startDate),
+                    datumdo: new Date($('input[name="datetimes"]').data('daterangepicker').endDate),
+                    lokacijaGd: this.grad,
+                    cenaod: $("#slider-range").slider("values", 0),
+                    cenado: $("#slider-range").slider("values", 1),
+                    tip: this.checkedTipovi,
+                    rasprodate: this.checkedRasprodate, //true - samo rasprodate false - samo nerasprodate null-sve
+                    sortat: this.sort1 + this.sort2
+                }
+            }
+            axios.get("rest/manifestacije/getManifestacije", opcijePretrage)
+                .then(response => {
+                    this.manifestacije.clear()
+                    for (let m of response.data){
+                        m.vreme = new Date(m.vreme + ".000Z")
+                    }
+                    this.manifestacije = response.data
+                })
         }
     }
 });

@@ -19,6 +19,7 @@ public class Manifestacija {
 	private Boolean aktivna;
 	private Boolean deleted;
 	private Lokacija lokacija;
+
 	public Manifestacija() {
 		super();
 	}

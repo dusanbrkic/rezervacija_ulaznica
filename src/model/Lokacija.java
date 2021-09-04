@@ -6,6 +6,7 @@ public class Lokacija {
 	private String adresa;
 	private Boolean deleted;
 	private String grad;
+
 	public Lokacija() {
 		super();
 	}
