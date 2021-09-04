@@ -8,6 +8,7 @@ import model.enums.TipManifestacije;
 public class Manifestacija {
 	private String id;
 	private String naziv;
+	private String prodavac;
 	private int brojMesta;
 	private int brojSlobodnihMesta;
 	private double regularCena;
@@ -51,12 +52,6 @@ public class Manifestacija {
 	public void setRegularCena(double regularCena) {
 		this.regularCena = regularCena;
 	}
-	public String getImgPath() {
-		return poster;
-	}
-	public void setImgPath(String imgPath) {
-		this.poster = imgPath;
-	}
 	public TipManifestacije getTip() {
 		return tip;
 	}
@@ -96,4 +91,17 @@ public class Manifestacija {
 	public String getNazivLokacije() {
 		return this.lokacija.getAdresa()+" "+this.lokacija.getGrad();
 	}
+	public String getProdavac() {
+		return prodavac;
+	}
+	public void setProdavac(String prodavac) {
+		this.prodavac = prodavac;
+	}
+	public String getPoster() {
+		return poster;
+	}
+	public void setPoster(String poster) {
+		this.poster = poster;
+	}
+	
 }

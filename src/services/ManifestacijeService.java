@@ -29,6 +29,7 @@ import dao.ManifestacijeDAO;
 import model.Korisnik;
 import model.Manifestacija;
 import model.enums.ManifestacijaSortingParam;
+import model.enums.Rola;
 import model.enums.TipManifestacije;
 
 @Path("/manifestacije")
@@ -150,12 +151,17 @@ public class ManifestacijeService {
 	@Path("/dodajManifestaciju/{cookie}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response dodajManifestaciju(Manifestacija mf, @PathParam("cookie") String cookie) {
+		if(mf.getNaziv()==null || mf.getVremeOdrzavanja()==null) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
 		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
 		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
-		Korisnik k = kDao.getKorisnik(cookie);
-		if(k==null) {
-			return Response.status(Response.Status.OK).build();
+		Korisnik k = kDao.findByCookie(cookie);
+		if(k==null || (!(k.getUloga()==Rola.PRODAVAC))) {
+			return Response.status(Response.Status.FORBIDDEN).build();
 		}
+		mf.setProdavac(k.getUsername());
+		mDao.dodajManifestaciju(mf);
 		return Response.status(Response.Status.OK).build();
 	}
 }

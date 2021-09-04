@@ -119,22 +119,9 @@ public class KorisniciDAO {
         }
         throw new InvalidTokenException();
     }
-    public Korisnik getKorisnik(String kuki) {
-    	Map<String, String> parsedToken;
-        try {
-            parsedToken = CookieToken.parseToken(kuki);
-        } catch (CookieParseException e) {
-            return null;
-        }
-        String usn = parsedToken.get("username");
-        String pass = parsedToken.get("password");
+
         
-        if(prodavci.containsKey(usn)) {
-        	return prodavci.get(usn);
-        }
-        return null;
-        
-    }
+    
 
     public String loginUser(String username, String password) throws WrongPasswordException, UnknownUsernameException {
         if (kupci.containsKey(username)) {

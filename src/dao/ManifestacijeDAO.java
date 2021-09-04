@@ -3,6 +3,7 @@ package dao;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -43,6 +44,14 @@ public class ManifestacijeDAO {
             e.printStackTrace();
         }
 
+	}
+	public void dodajManifestaciju(Manifestacija mf) {
+		String id = mf.getNaziv()+LocalDateTime.now().toString();
+		mf.setId(id);
+		mf.setRasprodata(false);
+		mf.setId(id);
+		mf.setDeleted(false);
+		manifestacije.put(id, mf);
 	}
 
 }
