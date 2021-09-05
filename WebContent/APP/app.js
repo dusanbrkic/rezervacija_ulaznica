@@ -11,15 +11,16 @@ const HomeProdavac = {template: '<HomeProdavac></HomeProdavac>'} //navbar
 const ManifestacijaForma = {template: '<ManifestacijaForma></ManifestacijaForma>'} //dodavanje manifestacije
 
 //admin
-// const HomeAdmin = {template: '<HomeAdmin></HomeAdmin>'} //navbar
-// const Korisnici =  {template: '<Korisnici></Korisnici>'}
+const HomeAdmin = {template: '<HomeAdmin></HomeAdmin>'} //navbar
+const Korisnici =  {template: '<Korisnici></Korisnici>'}
+const RegisterProdavac =  {template: '<RegisterProdavac></RegisterProdavac>'}
 
 //svi tipovi korisnika
 //stranica za prikaz manifestacija je pocetna strana za sve korisnike (zadatak)
 const Manifestacije = {template: '<Manifestacije></Manifestacije>'}
-// const Manifestacija = {template: '<Manifestacija></Manifestacija>'}
-// const Karte = {template: '<Karte></Karte>'}
-// const Profil = {template: '<Profil></Profil>'}
+const Manifestacija = {template: '<Manifestacija></Manifestacija>'}
+const Karte = {template: '<Karte></Karte>'}
+const Profil = {template: '<Profil></Profil>'}
 
 const router = new VueRouter({
     mode: 'hash',
@@ -29,33 +30,34 @@ const router = new VueRouter({
                 {path: '', component: Manifestacije},
                 {path: 'login', component: Login},
                 {path: 'register', component: Register},
-                // {path: 'manifestacija:id', component: Manifestacija},
+                {path: 'manifestacija:id', component: Manifestacija},
             ]
         },
         {
             path: '/kupac', component: HomeKupac, children: [
                 {path: '', component: Manifestacije},
-                // {path: 'karte', component: Karte},
-                // {path: 'profil', component: Profil},
-                // {path: 'manifestacija:id', component: Manifestacija},
+                {path: 'karte', component: Karte},
+                {path: 'profil', component: Profil},
+                {path: 'manifestacija:id', component: Manifestacija},
             ]
         },
         {
             path: '/prodavac', component: HomeProdavac, children: [
                 {path: '/', component: Manifestacije},
-        //         {path: 'karte', component: Karte},
-        //         {path: 'profil', component: Profil},
+                {path: 'karte', component: Karte},
+                {path: 'profil', component: Profil},
                 {path: 'registrujManifestaciju', component: ManifestacijaForma},
-        //         {path: 'manifestacija:id', component: Manifestacija},
+                {path: 'manifestacija:id', component: Manifestacija},
             ]
         },
-        // {
-        //     path: '/admin', component: HomeAdmin, children: [
-        //         {path: '/', component: Manifestacije},
-        //         {path: 'profil', component: Profil},
-        //         {path: 'manifestacija:id', component: Manifestacija},
-        //     ]
-        // },
+        {
+            path: '/admin', component: HomeAdmin, children: [
+                {path: '/', component: Manifestacije},
+                {path: '/registrujProdavca', component: RegisterProdavac},
+                {path: 'profil', component: Profil},
+                {path: 'manifestacija:id', component: Manifestacija},
+            ]
+        },
 
 
     ]

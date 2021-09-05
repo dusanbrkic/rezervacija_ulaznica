@@ -70,8 +70,12 @@ public class ManifestacijeService {
 									 @QueryParam("rasprodate")Boolean rasprodate,//true - samo rasprodate false - samo nerasprodate null-sve
 									 @QueryParam("sortat") ManifestacijaSortingParam sortAt
 									 ) {
-		LocalDateTime datumOd = LocalDateTime.parse(sdatumOd, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
-		LocalDateTime datumDo = LocalDateTime.parse(sdatumDo, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+		LocalDateTime datumOd = null;
+		LocalDateTime datumDo = null;
+		if(sdatumDo!=null && sdatumOd!=null) {
+			datumOd = LocalDateTime.parse(sdatumOd, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+			datumDo = LocalDateTime.parse(sdatumDo, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+		}
 		ManifestacijeDAO manifestacijeDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
 		HashMap<String, Manifestacija> manifestacije = (HashMap<String, Manifestacija>) manifestacijeDao.manifestacije.clone();
 		Iterator<String> iterator = manifestacije.keySet().iterator();

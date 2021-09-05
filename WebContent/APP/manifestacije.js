@@ -3,25 +3,27 @@ Vue.component("Manifestacije", {
         return {
             manifestacije: [],
             cookie: "",
-            maxPriceManifestacija: null,
-            minPriceManifestacija: null,
+            maxPriceManifestacija: Infinity,
+            minPriceManifestacija: 0,
             naziv: "",
             checkedTipovi: ["KONCERT", "POZORISTE", "FESTIVAL", "OSTALO"],
             checkedRasprodate: null,
             adresa: "",
             grad: "",
-            sort1: "VREME",
+            sort1: "NAZIV",
             sort2: "ASC",
         }
     },
     mounted() {
         this.cookie = localStorage.getItem("cookie")
+        let that = this
+        this.search(true)
         $(function () {
             $("#slider-range").slider({
                 range: true,
-                min: 1000,
-                max: 20000,
-                values: [1000, 20000],
+                min: that.minPriceManifestacija,
+                max: that.maxPriceManifestacija,
+                values: [that.minPriceManifestacija, that.maxPriceManifestacija],
                 slide: function (event, ui) {
                     $("#amount").val(ui.values[0] + " RSD - " + ui.values[1] + " RSD");
                 }
@@ -43,7 +45,7 @@ Vue.component("Manifestacije", {
     template: `
       <div>
       <div id="filter-manifestacije-container">
-        <form @submit.prevent="search" id="filter-manifestacije-div">
+        <form @submit.prevent="search(false)" id="filter-manifestacije-div">
           <input id="naziv-pretraga" type="text" placeholder="Naziv.." v-model="naziv">
           <input id="adresa-pretraga" type="text" placeholder="Lokacija.." v-model="adresa">
           <input id="grad-pretraga" type="text" placeholder="Grad.." v-model="grad">
@@ -123,13 +125,13 @@ Vue.component("Manifestacije", {
             <div id="datum">{ moment(String(m.vreme)).format("DD/MM/YYYY HH:mm") }</div>
             <div id="lokacija">{m.grad} {m.adresa}</div>
             <div id="poster" style="width: 150px; height: 200px">
-            <img :src="m.poster" alt="poster"
+              <img :src="m.poster" alt="poster"
                    style="height: auto;width: 100%; max-height: 200px"> <!-- ./RES/slicice/posteri/exit_poster.jpg -->
             </div>
             <div id="cena" style="display: table; height:100%; overflow: hidden;">
-              <div style="display: table-cell; vertical-align: middle; text-align: center;">ii iii RSD</div>
+              <div style="display: table-cell; vertical-align: middle; text-align: center;">{m.regularCena}</div>
             </div>
-            <div id="ocena" style="">prosecna ocena</div>
+            <div id="ocena" style="">nije ocenjen</div>
           </div>
         </div>
       </div>
@@ -138,18 +140,18 @@ Vue.component("Manifestacije", {
     ,
     methods: {
         pregledManifestacije: function () {
-            $('input[name="datetimes"]').data('daterangepicker').setStartDate('03/01/2014')
+
         },
-        search: function () {
+        search: function (initial) {
             let opcijePretrage = {
                 params: {
                     naziv: this.naziv,
                     lokacija: this.adresa,
-                    datumod: new Date($('input[name="datetimes"]').data('daterangepicker').startDate),
-                    datumdo: new Date($('input[name="datetimes"]').data('daterangepicker').endDate),
+                    datumod: initial ? null : new Date($('input[name="datetimes"]').data('daterangepicker').startDate),
+                    datumdo: initial ? null : new Date($('input[name="datetimes"]').data('daterangepicker').endDate),
                     lokacijaGd: this.grad,
-                    cenaod: $("#slider-range").slider("values", 0),
-                    cenado: $("#slider-range").slider("values", 1),
+                    cenaod: initial ? 0 : $("#slider-range").slider("values", 0),
+                    cenado: initial ? Infinity : $("#slider-range").slider("values", 1),
                     tip: this.checkedTipovi,
                     rasprodate: this.checkedRasprodate, //true - samo rasprodate false - samo nerasprodate null-sve
                     sortat: this.sort1 + this.sort2
@@ -158,8 +160,12 @@ Vue.component("Manifestacije", {
             axios.get("rest/manifestacije/getManifestacije", opcijePretrage)
                 .then(response => {
                     this.manifestacije.clear()
-                    for (let m of response.data){
+                    for (let m of response.data) {
                         m.vreme = new Date(m.vreme + ".000Z")
+                        if (m.regularCena > this.maxPriceManifestacija)
+                            this.maxPriceManifestacija = m.regularCena
+                        if (m.regularCena < this.minPriceManifestacija)
+                            this.minPriceManifestacija = m.regularCena
                     }
                     this.manifestacije = response.data
                 })
