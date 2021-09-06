@@ -1,6 +1,7 @@
 Vue.component("ManifestacijaForma", {
     data: function () {
         return {
+            cookie: "",
             naziv: "",
             tip: null,
             brojMesta: null,
@@ -11,6 +12,10 @@ Vue.component("ManifestacijaForma", {
             poster: "",
             grad: "",
         }
+    },
+
+    mounted(){
+      this.cookie = localStorage.getItem("cookie")
     },
 
     template: `
@@ -100,7 +105,6 @@ Vue.component("ManifestacijaForma", {
                 brojSlobodnihMesta: this.brojMesta,
                 regularCena: this.cena,
                 poster: this.poster,
-                vremeOdrzavanja: this.datum,
                 rasprodata: false,
                 aktivna: true,
                 deleted: false,
@@ -114,7 +118,7 @@ Vue.component("ManifestacijaForma", {
                 },
             }
             await axios
-                .post("rest/manifestacije/dodajManifestaciju/" + this.cookie, manifestacija)
+                .post("rest/manifestacije/dodajManifestaciju/" + this.cookie, manifestacija, {params: {'vreme': new Date(this.datum)}})
                 .then((response) => (this.cookie = response.data))
 
             alert("Manifestacija uspesno registrovana!")

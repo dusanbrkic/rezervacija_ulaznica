@@ -152,14 +152,13 @@ Vue.component("Manifestacije", {
                     lokacijaGd: this.grad,
                     cenaod: initial ? 0 : $("#slider-range").slider("values", 0),
                     cenado: initial ? Infinity : $("#slider-range").slider("values", 1),
-                    tip: this.checkedTipovi,
                     rasprodate: this.checkedRasprodate, //true - samo rasprodate false - samo nerasprodate null-sve
                     sortat: this.sort1 + this.sort2
                 }
             }
-            axios.get("rest/manifestacije/getManifestacije", opcijePretrage)
+            axios.post("rest/manifestacije/getManifestacije", this.checkedTipovi , opcijePretrage)
                 .then(response => {
-                    this.manifestacije.clear()
+                    this.manifestacije.length = 0
                     for (let m of response.data) {
                         m.vreme = new Date(m.vreme + ".000Z")
                         if (m.regularCena > this.maxPriceManifestacija)

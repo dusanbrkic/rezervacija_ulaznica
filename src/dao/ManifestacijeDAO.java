@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import model.Komentar;
 import model.Kupac;
 import model.Manifestacija;
+import services.ManifestacijeService;
 
 public class ManifestacijeDAO {
 	public static final String fileSeparator = System.getProperty("file.separator");
@@ -80,15 +81,15 @@ public class ManifestacijeDAO {
 	}
 
 	public void dodajManifestaciju(Manifestacija mf) {
-		String id = mf.getNaziv()+LocalDateTime.now().toString();
+		String id = mf.getId();
 		mf.setId(id);
 		mf.setRasprodata(false);
 		mf.setDeleted(false);
 		manifestacije.put(id, mf);
-		String slike = resourceDir + File.separator + "slicice" + File.separator + "posteri";
-		//String imageDataBytes = mf.getPoster().substring(mf.getPoster().indexOf(",")+1);
-		String imageDataBytes = mf.getPoster();
-		
+		String slike = resourceDir + fileSeparator + "RES" + File.separator + "slicice" + File.separator + "posteri";
+		String imageDataBytes = mf.getPoster().substring(mf.getPoster().indexOf(",")+1);
+		mf.setPoster("./RES/slicice/posteri/" + id +".jpg"); // ./RES/slicice/posteri/exit_poster.jpg
+
 	   byte[] data = Base64.getDecoder().decode(imageDataBytes);
 	   
 	   	try(OutputStream stream = new FileOutputStream(slike + File.separator + id +".jpg")) {

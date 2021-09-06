@@ -55,7 +55,7 @@ public class ManifestacijeService {
 			context.setAttribute("manifestacijeDAO", md);
 		}
 	}
-	@GET
+	@POST
 	@Path("/getManifestacije")
 	//@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -66,7 +66,7 @@ public class ManifestacijeService {
 	 								 @QueryParam("lokacijaGd") String lokacijaGd, 
 	 								 @QueryParam("cenaod") Double cenaOd,
 	 								 @QueryParam("cenado") Double cenaDo,
-									 @QueryParam("tip") TipManifestacije tip, 
+									 ArrayList<TipManifestacije> tip,
 									 @QueryParam("rasprodate")Boolean rasprodate,//true - samo rasprodate false - samo nerasprodate null-sve
 									 @QueryParam("sortat") ManifestacijaSortingParam sortAt
 									 ) {
@@ -100,7 +100,7 @@ public class ManifestacijeService {
 					continue;
 				}
 			}
-			if(mf.getLokacija().getGrad().toLowerCase().contains(lokacijaGd.toLowerCase())) {
+			if(!mf.getLokacija().getGrad().toLowerCase().contains(lokacijaGd.toLowerCase())) {
 				iterator.remove();
 				continue;
 			}
@@ -109,8 +109,9 @@ public class ManifestacijeService {
 				continue;
 			}
 			if(tip!=null) {
-				if(tip!=mf.getTip()) {
+				if(!tip.contains(mf.getTip())) {
 					iterator.remove();
+					continue;
 				}
 				
 			}
