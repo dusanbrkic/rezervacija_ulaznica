@@ -1,9 +1,13 @@
 package dao;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -79,9 +83,19 @@ public class ManifestacijeDAO {
 		String id = mf.getNaziv()+LocalDateTime.now().toString();
 		mf.setId(id);
 		mf.setRasprodata(false);
-		mf.setId(id);
 		mf.setDeleted(false);
 		manifestacije.put(id, mf);
+		String slike = resourceDir + File.separator + "slicice" + File.separator + "posteri";
+		//String imageDataBytes = mf.getPoster().substring(mf.getPoster().indexOf(",")+1);
+		String imageDataBytes = mf.getPoster();
+		
+	   byte[] data = Base64.getDecoder().decode(imageDataBytes);
+	   
+	   	try(OutputStream stream = new FileOutputStream(slike + File.separator + id +".jpg")) {
+	   		stream.write(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		saveManifestacije();
 	}
 
