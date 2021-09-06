@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import model.enums.TipManifestacije;
 
 public class Manifestacija {

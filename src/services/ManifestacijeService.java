@@ -30,6 +30,7 @@ import model.Korisnik;
 import model.Manifestacija;
 import model.enums.ManifestacijaSortingParam;
 import model.enums.Rola;
+import model.enums.StatusManifestacije;
 import model.enums.TipManifestacije;
 
 @Path("/manifestacije")
@@ -57,7 +58,7 @@ public class ManifestacijeService {
 	}
 	@POST
 	@Path("/getManifestacije")
-	//@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getManifestacije(@QueryParam("naziv") String naziv,
 			 						 @QueryParam("lokacija") String lokacija,
@@ -67,7 +68,7 @@ public class ManifestacijeService {
 	 								 @QueryParam("cenaod") Double cenaOd,
 	 								 @QueryParam("cenado") Double cenaDo,
 									 ArrayList<TipManifestacije> tip,
-									 @QueryParam("rasprodate")Boolean rasprodate,//true - samo rasprodate false - samo nerasprodate null-sve
+									 @QueryParam("rasprodate")StatusManifestacije rasprodate,//true - samo rasprodate false - samo nerasprodate null-sve
 									 @QueryParam("sortat") ManifestacijaSortingParam sortAt
 									 ) {
 		LocalDateTime datumOd = null;
@@ -115,10 +116,10 @@ public class ManifestacijeService {
 				}
 				
 			}
-			if(rasprodate == null) {
+			if(rasprodate == StatusManifestacije.SVE) {
 				continue;
 			}
-				else if(rasprodate = true ) {
+				else if(rasprodate == StatusManifestacije.RASPRODATE ) {
 					if(mf.getRasprodata()==false) {
 						iterator.remove();
 						continue;
