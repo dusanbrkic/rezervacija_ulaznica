@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exceptions.*;
 import model.*;
+import model.enums.ImeTipaKupca;
 import model.enums.Rola;
 
 import javax.servlet.ServletContext;
@@ -84,6 +85,7 @@ public class KorisniciDAO {
         k.setBlocked(false);
         k.setBrojBodova(0);
         k.setKarte(new ArrayList<>());
+        k.setTip(ImeTipaKupca.BRONZANI);
         k.setCookieToken(CookieToken.createTokenValue(k.getUsername(), k.getPassword()));
         if (kupci.containsKey(k.getUsername()))
             throw new UsernameExistsException();

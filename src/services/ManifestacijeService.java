@@ -130,7 +130,7 @@ public class ManifestacijeService {
 				}
 				
 			}
-		ArrayList<Manifestacija> results = (ArrayList<Manifestacija>) manifestacije.values();
+		ArrayList<Manifestacija> results = new ArrayList<Manifestacija> (manifestacije.values());
 		switch(sortAt) {
 		case NAZIVASC : results.sort(Comparator.comparing(Manifestacija::getNaziv));
 			break;

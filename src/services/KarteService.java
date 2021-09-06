@@ -17,6 +17,7 @@ import dao.ManifestacijeDAO;
 import model.Karta;
 import model.Kupac;
 import model.Manifestacija;
+import model.enums.ImeTipaKupca;
 import model.enums.TipKarte;
 
 @Path("/karte")
@@ -54,11 +55,18 @@ public class KarteService {
 		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
 		KarteDAO karDao = (KarteDAO) context.getAttribute("karteDAO");
 		Manifestacija mf = mDao.findManifestacija(idm);
+		Kupac k = (Kupac) kDao.findByCookie(idk);
 		int num = reg + vip + fan;
 		double cena = 0;
 		double regCena = mf.getRegularCena();
 		cena += regCena*reg + regCena*fan*2 + regCena*vip*4;
-		//TODO smanjiti cenu
+		switch(k.getTip()) {
+		case BRONZANI : break;
+		case SREBRNI : cena = cena*0.98;
+			break;
+		case  ZLATNI : cena = cena*0.95;
+			break;
+		}
 		return Response.status(Response.Status.OK).entity(cena).build();
 	}
 	
@@ -97,7 +105,14 @@ public class KarteService {
 		}
 		mf.setBrojSlobodnihMesta(mf.getBrojSlobodnihMesta()-num);
 		k.setBrojBodova(k.getBrojBodova()+dobijeniBodovi);
-		//TODO proveriti tip korisnika
+		if(k.getBrojBodova()>5000) {
+			k.setTip(ImeTipaKupca.ZLATNI);
+		}else if(k.getBrojBodova()>2000) {
+			k.setTip(ImeTipaKupca.SREBRNI);
+		}else {
+			k.setTip(ImeTipaKupca.BRONZANI);
+		}
+		
 		return Response.status(Response.Status.OK).build();
 	}
 }
