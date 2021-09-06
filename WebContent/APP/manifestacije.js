@@ -7,10 +7,10 @@ Vue.component("Manifestacije", {
             minPriceManifestacija: Infinity,
             naziv: "",
             checkedTipovi: ["KONCERT", "POZORISTE", "FESTIVAL", "OSTALO"],
-            checkedRasprodate: null,
+            checkedRasprodate: "SVE",
             adresa: "",
             grad: "",
-            sort1: "NAZIV",
+            sort1: "VREME",
             sort2: "ASC",
         }
     },
@@ -75,15 +75,15 @@ Vue.component("Manifestacije", {
           </div>
           <div id="rasprodate-div">
             <label style="display: block;">
-              <input type="radio" checked="checked" name="rasprodate" v-model="checkedRasprodate" value=null>
+              <input type="radio" checked="checked" name="rasprodate" v-model="checkedRasprodate" value="SVE">
               Sve
             </label>
             <label style="display: block;">
-              <input type="radio" name="rasprodate" v-model="checkedRasprodate" value=false>
+              <input type="radio" name="rasprodate" v-model="checkedRasprodate" value="NERASPRODATE">
               Nerasprodate
             </label>
             <label style="display: block;">
-              <input type="radio" name="rasprodate" v-model="checkedRasprodate" value=true>
+              <input type="radio" name="rasprodate" v-model="checkedRasprodate" value="RASPRODATE">
               Rasprodate
             </label>
           </div>
