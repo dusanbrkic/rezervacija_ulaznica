@@ -95,7 +95,7 @@ public class ManifestacijeService {
 				continue;
 			}
 			if(datumOd!=null && datumDo!=null) {
-				if(mf.getVremeOdrzavanja().compareTo(datumOd)<=0 || mf.getVremeOdrzavanja().compareTo(datumDo)>=0) {
+				if(mf.getVremeOdrzavanjaLDT().compareTo(datumOd)<=0 || mf.getVremeOdrzavanjaLDT().compareTo(datumDo)>=0) {
 					iterator.remove();
 					continue;
 				}
@@ -137,9 +137,9 @@ public class ManifestacijeService {
 			break;
 		case NAZIVDESC : results.sort(Comparator.comparing(Manifestacija::getNaziv).reversed());
 		break;
-		case VREMEASC : results.sort(Comparator.comparing(Manifestacija::getVremeOdrzavanja));
+		case VREMEASC : results.sort(Comparator.comparing(Manifestacija::getVremeOdrzavanjaLDT));
 		break;
-		case VREMEDESC : results.sort(Comparator.comparing(Manifestacija::getVremeOdrzavanja).reversed());
+		case VREMEDESC : results.sort(Comparator.comparing(Manifestacija::getVremeOdrzavanjaLDT).reversed());
 		break;
 		case CENAASC : results.sort(Comparator.comparing(Manifestacija::getRegularCena));
 		break;
@@ -158,8 +158,8 @@ public class ManifestacijeService {
 	public Response dodajManifestaciju(Manifestacija mf, @PathParam("cookie") String cookie,
 			@QueryParam("vreme") String svreme) {
 		LocalDateTime vreme = LocalDateTime.parse(svreme, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
-		mf.setVremeOdrzavanja(vreme);
-		if(mf.getNaziv()==null || mf.getVremeOdrzavanja()==null) {
+		mf.setVremeOdrzavanjaLDT(vreme);
+		if(mf.getNaziv()==null || mf.getVremeOdrzavanjaLDT()==null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");

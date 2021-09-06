@@ -1,8 +1,11 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import model.enums.TipManifestacije;
 
 public class Manifestacija {
@@ -14,7 +17,7 @@ public class Manifestacija {
 	private double regularCena;
 	private String poster;
 	private TipManifestacije tip;
-	private LocalDateTime vremeOdrzavanja;
+	private String vremeOdrzavanja;
 	private Boolean rasprodata;
 	private Boolean aktivna;
 	private Boolean deleted;
@@ -59,12 +62,23 @@ public class Manifestacija {
 	public void setTip(TipManifestacije tip) {
 		this.tip = tip;
 	}
-	public LocalDateTime getVremeOdrzavanja() {
+	@JsonIgnore
+	public LocalDateTime getVremeOdrzavanjaLDT() {
+		return LocalDateTime.parse(this.vremeOdrzavanja, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+	}
+	@JsonIgnore
+	public void setVremeOdrzavanjaLDT(LocalDateTime vremeOdrzavanja) {
+		this.vremeOdrzavanja = vremeOdrzavanja.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+	}
+
+	public String getVremeOdrzavanja() {
 		return vremeOdrzavanja;
 	}
-	public void setVremeOdrzavanja(LocalDateTime vremeOdrzavanja) {
+
+	public void setVremeOdrzavanja(String vremeOdrzavanja) {
 		this.vremeOdrzavanja = vremeOdrzavanja;
 	}
+
 	public Boolean getAktivna() {
 		return aktivna;
 	}
@@ -89,6 +103,7 @@ public class Manifestacija {
 	public void setLokacija(Lokacija lokacija) {
 		this.lokacija = lokacija;
 	}
+	@JsonIgnore
 	public String getNazivLokacije() {
 		return this.lokacija.getAdresa()+" "+this.lokacija.getGrad();
 	}
