@@ -26,6 +26,7 @@ import javax.ws.rs.core.Response;
 import dao.KarteDAO;
 import dao.KorisniciDAO;
 import dao.ManifestacijeDAO;
+import model.Komentar;
 import model.Korisnik;
 import model.Manifestacija;
 import model.enums.ManifestacijaSortingParam;
@@ -171,6 +172,34 @@ public class ManifestacijeService {
 		}
 		mf.setProdavac(k.getUsername());
 		mDao.dodajManifestaciju(mf);
+		return Response.status(Response.Status.OK).build();
+	}
+	
+	@POST
+	@Path("/postaviKomentar")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response postaviKomentar(Komentar k) {
+		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
+		KarteDAO kDao = (KarteDAO) context.getAttribute("karteDAO");
+		//Manifestacija mf = mDao.findManifestacija(k.getManifestacija());
+		if(LocalDateTime.now().isBefore(mDao.manifestacije.get(k.getManifestacija()).getVremeOdrzavanjaLDT())) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
+		if(!kDao.proveriRezervisanost(k.getManifestacija(), k.getKupac())) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
+		mDao.dodajKomentar(k);
+		mDao.saveKomentari();
+		return Response.status(Response.Status.OK).build();
+	}
+	
+	@POST
+	@Path("/odgovoriNaKomentar/{komentar}/{odobren}")
+	public Response odgovoriNaKomentar(@PathParam("komentar") String komentar, @PathParam("odobren") boolean odobren) {
+		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
+		Komentar k = mDao.findKomentar(komentar);
+		k.setOdobren(odobren);
+		mDao.saveKomentari();
 		return Response.status(Response.Status.OK).build();
 	}
 }

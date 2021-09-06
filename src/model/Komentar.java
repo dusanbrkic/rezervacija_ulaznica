@@ -1,6 +1,7 @@
 package model;
 
 public class Komentar {
+	private String id;
 	private String manifestacija;
 	private String kupac;
 	private int ocena;
@@ -9,6 +10,15 @@ public class Komentar {
 	public Komentar() {
 		super();
 	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getManifestacija() {
 		return manifestacija;
 	}

@@ -79,6 +79,17 @@ public class ManifestacijeDAO {
 		}
 		return null;
 	}
+	
+	public void dodajKomentar(Komentar k) {
+		komentari.put(k.getId(), k);
+	}
+	
+	public Komentar findKomentar(String key) {
+		if(komentari.containsKey(key)) {
+			komentari.get(key);
+		}
+		return null;
+	}
 
 	public void dodajManifestaciju(Manifestacija mf) {
 		String id = mf.getId();

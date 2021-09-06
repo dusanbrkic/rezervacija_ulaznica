@@ -67,5 +67,15 @@ public class KarteDAO {
 		karte.put(k.getId(), k);
 		return k;
 	}
+	
+	public boolean proveriRezervisanost(String mf, String kupac) {
+		for(Karta k : karte.values()){
+			if(k.getManifestacija().equals(mf) && k.getStatus()==StatusKarte.REZERVISANA && k.getKupac().equals(kupac)) {
+				return false;
+			}
+		}
+		
+		return false;
+	}
 
 }

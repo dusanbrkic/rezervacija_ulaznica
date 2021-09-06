@@ -104,12 +104,16 @@ public class KarteService {
 			fan--;
 		}
 		mf.setBrojSlobodnihMesta(mf.getBrojSlobodnihMesta()-num);
+		if(mf.getBrojSlobodnihMesta()==0) {
+			mf.setRasprodata(true);
+		}
 		k.setBrojBodova(k.getBrojBodova()+dobijeniBodovi);
 		if(k.getBrojBodova()>5000) {
 			k.setTip(ImeTipaKupca.ZLATNI);
 		}else if(k.getBrojBodova()>2000) {
 			k.setTip(ImeTipaKupca.SREBRNI);
 		}else {
+			
 			k.setTip(ImeTipaKupca.BRONZANI);
 		}
 		
