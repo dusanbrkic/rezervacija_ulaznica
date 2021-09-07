@@ -11,7 +11,7 @@ import dao.ManifestacijeDAO;
 import model.enums.StatusKarte;
 import model.enums.TipKarte;
 
-public class Karta {
+public class Karta{
 	private String id;
 	private String kupac;
 	private String prodavac;
@@ -23,6 +23,19 @@ public class Karta {
 	public Karta() {
 		super();
 	}
+	public Karta getDTOcopy() {
+		Karta k = new Karta();
+		k.id = this.id;
+		k.kupac = ManifestacijeDAO.manifestacije.get(this.manifestacija).getNaziv();
+		k.prodavac = this.prodavac;
+		k.manifestacija = this.manifestacija;
+		k.cena = this.cena;
+		k.vremeManifestacije = this.vremeManifestacije;
+		k.status = this.status;
+		k.tip = tip;
+		return k;
+	}
+	
 	@JsonIgnore
 	public String getNazivManifestacije() 
 	{

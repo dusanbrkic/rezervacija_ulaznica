@@ -127,7 +127,12 @@ public class KarteService {
 		case DATUMDESC : karte.sort(Comparator.comparing(Karta::getVremeManifestacijeLDT).reversed());
 			break;
 		}
-		return Response.status(Response.Status.OK).entity(karte).build();
+		ArrayList<Karta> karteC = new ArrayList<Karta>();
+		for(Karta k : karte) {
+			Karta kC = k.getDTOcopy();
+			karteC.add(kC);
+		}
+		return Response.status(Response.Status.OK).entity(karteC).build();
 	}
 	
 	@GET
