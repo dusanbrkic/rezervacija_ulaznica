@@ -1,0 +1,99 @@
+#manifestacija-div * {
+    box-sizing: border-box;
+}
+
+#manifestacija-div-container{
+    display: grid;
+    place-items: center;
+}
+
+#manifestacija-div {
+    max-width: 1000px;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    display: grid;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    padding: 16px;
+    text-align: left;
+    background-color: #f1f1f1;
+    color: black;
+    place-items: start;
+    grid-template-areas:
+            "poster naziv naziv"
+            "poster tip tip"
+            "poster prBrojKarata prBrojKarata"
+            "poster datum datum"
+            "poster cena cena"
+            "poster status status"
+            "poster lokacija lokacija"
+            "poster ocena ocena";
+    gap: 20px;
+}
+
+#naziv{
+    grid-area: naziv;
+}
+#tip{
+    grid-area: tip;
+}
+#prBrojKarata{
+    grid-area: prBrojKarata;
+}
+#datum{
+    grid-area: datum;
+}
+#status{
+    grid-area: status;
+}
+#lokacija{
+    grid-area: lokacija;
+}
+#ocena{
+    grid-area: ocena;
+}
+#cena{
+    grid-area: cena;
+}
+#poster{
+    grid-area: poster;
+}
+
+.row {
+    width: 100%;
+    margin-bottom: 20px;
+    display: grid;
+    place-items: center;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    padding: 16px;
+    text-align: left;
+    background-color: #f1f1f1;
+    color: black;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+            "usn-kupac"
+            "tekst-komentara";
+    gap: 10px;
+    max-width: 1000px;
+}
+
+#usn-kupac{
+    grid-area: usn-kupac;
+}
+#tekst-komentara{
+    grid-area: tekst-komentara;
+}
+
+.card > * {
+    margin-right: 25px;
+}
