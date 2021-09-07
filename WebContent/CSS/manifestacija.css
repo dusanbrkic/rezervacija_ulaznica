@@ -93,7 +93,3 @@
 #tekst-komentara{
     grid-area: tekst-komentara;
 }
-
-.card > * {
-    margin-right: 25px;
-}

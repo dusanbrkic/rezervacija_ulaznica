@@ -47,8 +47,8 @@ Vue.component("Manifestacija", {
       <div class="row" v-for="k in komentari">
         <div class="card">
           <div id="usn-kupac">{{ k.kupac }}</div>
-          <div id="tekst-komentara">
-            <textarea disabled>
+          <div id="tekst-komentara" style="align-self: stretch">
+            <textarea style="align-self: stretch; resize: none;" disabled readonly>
               {{ k.tekst }}
             </textarea>
           </div>
@@ -58,8 +58,8 @@ Vue.component("Manifestacija", {
       <div class="row">
         <div class="card">
           <div id="usn-kupac">Ostavite svoj komentar:</div>
-          <div id="tekst-komentara">
-            <textarea>
+          <div id="tekst-komentara" style="align-self: stretch">
+            <textarea style="align-self: stretch; resize: none; width: 100%; height: 100%;">
             </textarea>
           </div>
         </div>
