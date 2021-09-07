@@ -20,7 +20,7 @@ public class KarteDAO {
 
     private static String karteFileName;
     
-    private static HashMap<String, Karta> karte;
+    public static HashMap<String, Karta> karte;
     private static int sequencer = 1000000000;
 	public KarteDAO(String realPath) {
 		resourceDir = realPath;
@@ -55,6 +55,7 @@ public class KarteDAO {
 		k.setManifestacija(mf.getId());
 		k.setProdavac(mf.getProdavac());
 		k.setStatus(StatusKarte.REZERVISANA);
+		k.setVremeManifestacije(mf.getVremeOdrzavanjaLDT().toString());
 		k.setTip(tip);
 		switch(tip) {
 		case VIP : k.setCena(mf.getRegularCena()*4);
@@ -66,6 +67,15 @@ public class KarteDAO {
 		}
 		karte.put(k.getId(), k);
 		return k;
+	}
+	
+	public Karta findKarta(String key) {
+		
+		if(karte.containsKey(key)) {
+			return karte.get(key);
+		}
+		
+		return null;
 	}
 	
 	public boolean proveriRezervisanost(String mf, String kupac) {

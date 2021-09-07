@@ -1,0 +1,5 @@
+package model.enums;
+
+public enum KarteSortingParam {
+	NISTA, MANIFESTACIJAASC, MANIFESTACIJADESC, CENAASC, CENADESC, DATUMASC, DATUMDESC
+}
