@@ -118,6 +118,10 @@ public class ManifestacijeService {
 				}
 				
 			}
+			if(mf.getAktivna()==false) {
+				iterator.remove();
+				continue;
+			}
 			if(rasprodate == StatusManifestacije.SVE) {
 				continue;
 			}
@@ -167,6 +171,26 @@ public class ManifestacijeService {
 		
 		return Response.status(Response.Status.OK).entity(mf).build();
 	}
+	
+	@GET
+	@Path("/getManifestacijeZaOdobriti/{cookie}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getManifestacijeZaOdobriti(@PathParam("cookie")String cookie) {
+		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
+		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		Korisnik k  = kDao.findByCookie(cookie);
+		if(k.getUloga()!=Rola.ADMIN) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
+		ArrayList<Manifestacija> manifestacije = new ArrayList<Manifestacija>();
+		for(Manifestacija mf : mDao.manifestacije.values()) {
+			if(mf.getAktivna()==false) {
+				manifestacije.add(mf);
+			}
+		}
+		return Response.status(Response.Status.OK).entity(manifestacije).build();
+	}
+	
 	
 	@GET
 	@Path("/getMojeManifestacije/{cookie}")

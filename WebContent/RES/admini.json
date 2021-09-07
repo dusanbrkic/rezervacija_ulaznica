@@ -1,1 +1,14 @@
-{}
+{
+  "admin": {
+    "username": "admin",
+    "password": "admin",
+    "ime": "Admin",
+    "prezime": "Adminovic",
+    "datumRodjenja": null,
+    "uloga": "ADMIN",
+    "pol": "MUSKI",
+    "blocked": false,
+    "deleted": false,
+    "cookieToken": "admin-admin"
+  }
+}

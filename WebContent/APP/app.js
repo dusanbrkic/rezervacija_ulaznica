@@ -15,6 +15,7 @@ const MojeManifestacije = {template: '<MojeManifestacije></MojeManifestacije>'} 
 const HomeAdmin = {template: '<HomeAdmin></HomeAdmin>'} //navbar
 const Korisnici =  {template: '<Korisnici></Korisnici>'}
 const RegisterProdavac =  {template: '<RegisterProdavac></RegisterProdavac>'}
+const OdobravanjeManifestacije = {template: '<OdobravanjeManifestacije></OdobravanjeManifestacije>'}
 
 //svi tipovi korisnika
 //stranica za prikaz manifestacija je pocetna strana za sve korisnike (zadatak)
@@ -58,6 +59,7 @@ const router = new VueRouter({
                 {path: '/registrujProdavca', component: RegisterProdavac},
                 {path: 'profil', component: Profil},
                 {path: 'manifestacija:id', component: Manifestacija},
+                {path: 'odobravanjeManifestacije', component: OdobravanjeManifestacije},
             ]
         },
 
