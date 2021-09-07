@@ -116,7 +116,7 @@ Vue.component("Manifestacije", {
         <link rel="stylesheet" href="CSS/manifestacije.css" type="text/css">
         <div class="row" v-for="m in manifestacije">
           <div class="card">
-            <div id="naziv"><a v-on:click="pregledManifestacije" style="color: blue; cursor: pointer;">{{ m.naziv }}</a>
+            <div id="naziv"><a v-on:click="pregledManifestacije(m.id)" style="color: blue; cursor: pointer;">{{ m.naziv }}</a>
             </div>
             <div id="tip">{{ m.tip }}</div>
             <div id="datum">{{ m.vremeOdrzavanja }}</div>
@@ -136,8 +136,9 @@ Vue.component("Manifestacije", {
     `
     ,
     methods: {
-        pregledManifestacije: function () {
-
+        pregledManifestacije: function (id) {
+            app.$router.push('manifestacija' + id);
+            localStorage.setItem("cookie", this.cookie);
         },
         search: function (initial) {
             let opcijePretrage = {
