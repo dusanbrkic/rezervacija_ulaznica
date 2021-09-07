@@ -26,6 +26,7 @@ import javax.ws.rs.core.Response;
 import dao.KarteDAO;
 import dao.KorisniciDAO;
 import dao.ManifestacijeDAO;
+import exceptions.InvalidTokenException;
 import model.Komentar;
 import model.Korisnik;
 import model.Manifestacija;
@@ -154,6 +155,39 @@ public class ManifestacijeService {
 		}
 		return Response.status(Response.Status.OK).entity(results).build();
 	}
+	@GET
+	@Path("/getManifestacija/{idm}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getManifestacija(@PathParam("idm")String idm) {
+		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
+		Manifestacija mf = mDao.findManifestacija(idm);
+		if(mf==null) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		
+		return Response.status(Response.Status.OK).entity(mf).build();
+	}
+	
+	@GET
+	@Path("/getMojeManifestacije/{cookie}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getMojeManifestacije(@PathParam("cookie") String cookie) {
+		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		Korisnik k = kDao.findByCookie(cookie);
+		if(k.getUloga()!=Rola.PRODAVAC) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
+		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
+		ArrayList<Manifestacija> manifestacije = new ArrayList<Manifestacija>();
+		for(Manifestacija mf : mDao.manifestacije.values()) {
+			if(mf.getProdavac().equals(k.getUsername())){
+				manifestacije.add(mf);
+			}
+			
+		}
+		return Response.status(Response.Status.OK).entity(manifestacije).build();
+	}
+	
 	@POST
 	@Path("/dodajManifestaciju/{cookie}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -171,7 +205,28 @@ public class ManifestacijeService {
 			return Response.status(Response.Status.FORBIDDEN).build();
 		}
 		mf.setProdavac(k.getUsername());
+		mf.setAktivna(false);
 		mDao.dodajManifestaciju(mf);
+		mDao.saveManifestacije();
+		return Response.status(Response.Status.OK).build();
+	}
+	
+	@POST
+	@Path("/odobriManifestaciju/{idm}/{cookie}")
+	public Response odobriManifestaciju(@PathParam("idm")String idm, @PathParam("cookie") String cookie) {
+		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
+		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		
+		Korisnik k = kDao.findByCookie(cookie);
+		if(k.getUloga()!=Rola.ADMIN) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
+		Manifestacija mf = mDao.findManifestacija(idm);
+		if(mf==null) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		mf.setAktivna(true);
+		mDao.saveManifestacije();
 		return Response.status(Response.Status.OK).build();
 	}
 	
@@ -194,12 +249,37 @@ public class ManifestacijeService {
 	}
 	
 	@POST
-	@Path("/odgovoriNaKomentar/{komentar}/{odobren}")
-	public Response odgovoriNaKomentar(@PathParam("komentar") String komentar, @PathParam("odobren") boolean odobren) {
+	@Path("/odobriKomentar/{komentar}/{odobren}")
+	public Response odobriKomentar(@PathParam("komentar") String komentar, @PathParam("odobren") boolean odobren) {
 		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
 		Komentar k = mDao.findKomentar(komentar);
 		k.setOdobren(odobren);
 		mDao.saveKomentari();
 		return Response.status(Response.Status.OK).build();
 	}
+	
+	@GET
+	@Path("/getKomentari/{idm}/{cookie}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getKomentari(@PathParam("idm") String idm,@PathParam("cookie") String cookie) {
+		
+		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
+		Korisnik kor = kDao.findByCookie(cookie);
+		Rola r = kor.getUloga();
+		ArrayList<Komentar> komentari = new ArrayList<Komentar>();
+		for(Komentar k : mDao.komentari.values()) {
+			if(k.getManifestacija().equals(idm)) {
+				if(r!=Rola.KUPAC) {
+					komentari.add(k);
+				}else if(k.getOdobren()) {
+					komentari.add(k);
+				}
+			}
+		}
+		
+		return Response.status(Response.Status.OK).entity(komentari).build();
+	}
+	
+	
 }

@@ -9,6 +9,7 @@ const HomeKupac = {template: '<HomeKupac></HomeKupac>'} //navbar
 //prodavac
 const HomeProdavac = {template: '<HomeProdavac></HomeProdavac>'} //navbar
 const ManifestacijaForma = {template: '<ManifestacijaForma></ManifestacijaForma>'} //dodavanje manifestacije
+const MojeManifestacije = {template: '<MojeManifestacije></MojeManifestacije>'} //manifestacije prodavca
 
 //admin
 const HomeAdmin = {template: '<HomeAdmin></HomeAdmin>'} //navbar
@@ -47,6 +48,7 @@ const router = new VueRouter({
                 {path: 'karte', component: Karte},
                 {path: 'profil', component: Profil},
                 {path: 'registrujManifestaciju', component: ManifestacijaForma},
+                {path: 'mojeManifestacije', component: MojeManifestacije},
                 {path: 'manifestacija:id', component: Manifestacija},
             ]
         },
