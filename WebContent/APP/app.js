@@ -5,6 +5,7 @@ const Register = {template: '<Register></Register>'}
 
 //kupac
 const HomeKupac = {template: '<HomeKupac></HomeKupac>'} //navbar
+const MojeKarte = {template: '<MojeKarte></MojeKarte>'} //prikaz karata kupca
 
 //prodavac
 const HomeProdavac = {template: '<HomeProdavac></HomeProdavac>'} //navbar
@@ -40,6 +41,7 @@ const router = new VueRouter({
                 {path: '', component: Manifestacije},
                 {path: 'karte', component: Karte},
                 {path: 'profil', component: Profil},
+                {path: 'mojeKarte', component: MojeKarte},
                 {path: 'manifestacija:id', component: Manifestacija},
             ]
         },

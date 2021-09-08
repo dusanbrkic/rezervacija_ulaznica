@@ -27,8 +27,13 @@
             "poster cena cena"
             "poster status status"
             "poster lokacija lokacija"
-            "poster ocena ocena";
+            "poster ocena ocena"
+            "poster kupi kupi";
     gap: 20px;
+}
+
+#kupi{
+	grid-area: kupi;
 }
 
 #naziv{

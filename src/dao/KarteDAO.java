@@ -50,7 +50,8 @@ public class KarteDAO {
 	
 	public Karta dodajKartu(Kupac kp , Manifestacija mf, TipKarte tip) {
 		Karta k = new Karta();
-		k.setId(Integer.toString(sequencer+1));
+		sequencer++;
+		k.setId(Integer.toString(sequencer));
 		k.setKupac(kp.getUsername());
 		k.setManifestacija(mf.getId());
 		k.setProdavac(mf.getProdavac());

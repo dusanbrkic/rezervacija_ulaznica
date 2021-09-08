@@ -33,6 +33,7 @@ public class ManifestacijeDAO {
         manifestacijeFileName = resourceDir + fileSeparator + "RES" + fileSeparator + "manifestacije.json";
         komentariFileName = resourceDir + fileSeparator + "RES" + fileSeparator + "komentari.json";
         loadManifestacije();
+        loadKomentari();
 	}
 	
 	public void saveManifestacije() {

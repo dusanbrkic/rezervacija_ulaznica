@@ -50,6 +50,7 @@ Vue.component("Login", {
                 .get("rest/korisnici/validateUser/" + this.cookie)
                 .then(response => (this.role = response.data))
             localStorage.setItem("cookie", this.cookie)
+            localStorage.setItem("rola", this.role)
             if (this.role === "KUPAC")
                 app.$router.push("/kupac")
             else if (this.role === "ADMIN")

@@ -179,17 +179,17 @@ public class KarteService {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 		int dobijeniBodovi = 0;
-		while(reg<0) {
+		while(reg>0) {
 			Karta kar = karDao.dodajKartu(k, mf, TipKarte.REGULAR);
 			dobijeniBodovi+= kar.getCena()/1000*133;
 			reg--;
 		}
-		while(vip<0) {
+		while(vip>0) {
 			Karta kar = karDao.dodajKartu(k, mf, TipKarte.VIP);
 			dobijeniBodovi+= kar.getCena()/1000*133;
 			vip--;
 		}
-		while(fan<0) {
+		while(fan>0) {
 			Karta kar = karDao.dodajKartu(k, mf, TipKarte.FAN_PIT);
 			dobijeniBodovi+= kar.getCena()/1000*133;
 			fan--;

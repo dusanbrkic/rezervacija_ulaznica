@@ -23,6 +23,7 @@ public class Karta{
 	public Karta() {
 		super();
 	}
+	@JsonIgnore
 	public Karta getDTOcopy() {
 		Karta k = new Karta();
 		k.id = this.id;
@@ -93,6 +94,13 @@ public class Karta{
 	}
 	public void setTip(TipKarte tip) {
 		this.tip = tip;
+	}
+	@JsonIgnore
+	@Override
+	public String toString() {
+		return "Karta [id=" + id + ", kupac=" + kupac + ", prodavac=" + prodavac + ", manifestacija=" + manifestacija
+				+ ", cena=" + cena + ", vremeManifestacije=" + vremeManifestacije + ", status=" + status + ", tip="
+				+ tip + "]";
 	}
 	
 }
