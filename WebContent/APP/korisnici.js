@@ -1,14 +1,17 @@
-Vue.component("MojeKarte", {
+Vue.component("Korisnici", {
     data: function () {
-        return {}
+        return {
+
+        }
     },
     mounted() {
+
     },
     template: `
      
     `
     ,
     methods: {
-        
+
     }
 });

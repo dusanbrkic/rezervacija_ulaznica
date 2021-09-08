@@ -12,6 +12,8 @@ Vue.component("HomeProdavac", {
         <li style="float: left;"><a class="navbar-option" href="#/prodavac">Manifestacije</a></li>
         <li style="float: left;"><a class="navbar-option" href="#/prodavac/registrujManifestaciju">Registruj manifestaciju</a></li>
         <li style="float: left;"><a class="navbar-option" href="#/prodavac/mojeManifestacije">Moje manifestacije</a></li>
+        <li style="float: left;"><a class="navbar-option" href="#/prodavac/korisnici">Kupci karata mojih</a></li>
+        <li style="float: left;"><a class="navbar-option" href="#/prodavac/karte">Karte manifestacija mojih</a></li>
         <li style="float: right;"><a class="navbar-option" v-on:click="logOut">Odjavi se</a></li>
         <li style="float: right;"><a class="navbar-option" href="#/prodavac/profil">Moj Profil</a></li>
       </ul>

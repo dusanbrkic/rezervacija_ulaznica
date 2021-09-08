@@ -5,7 +5,6 @@ const Register = {template: '<Register></Register>'}
 
 //kupac
 const HomeKupac = {template: '<HomeKupac></HomeKupac>'} //navbar
-const MojeKarte = {template: '<MojeKarte></MojeKarte>'} //prikaz karata kupca
 
 //prodavac
 const HomeProdavac = {template: '<HomeProdavac></HomeProdavac>'} //navbar
@@ -41,14 +40,14 @@ const router = new VueRouter({
                 {path: '', component: Manifestacije},
                 {path: 'karte', component: Karte},
                 {path: 'profil', component: Profil},
-                {path: 'mojeKarte', component: MojeKarte},
                 {path: 'manifestacija:id', component: Manifestacija},
             ]
         },
         {
             path: '/prodavac', component: HomeProdavac, children: [
-                {path: '/', component: Manifestacije},
+                {path: '', component: Manifestacije},
                 {path: 'karte', component: Karte},
+                {path: 'korisnici', component: Korisnici},
                 {path: 'profil', component: Profil},
                 {path: 'registrujManifestaciju', component: ManifestacijaForma},
                 {path: 'mojeManifestacije', component: MojeManifestacije},
@@ -57,8 +56,10 @@ const router = new VueRouter({
         },
         {
             path: '/admin', component: HomeAdmin, children: [
-                {path: '/', component: Manifestacije},
-                {path: '/registrujProdavca', component: RegisterProdavac},
+                {path: '', component: Manifestacije},
+                {path: 'registrujProdavca', component: RegisterProdavac},
+                {path: 'karte', component: Karte},
+                {path: 'korisnici', component: Korisnici},
                 {path: 'profil', component: Profil},
                 {path: 'manifestacija:id', component: Manifestacija},
                 {path: 'odobravanjeManifestacije', component: OdobravanjeManifestacije},

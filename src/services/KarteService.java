@@ -57,10 +57,10 @@ public class KarteService {
 	@Path("/getMojeKarte/{cookie}")
 	public Response getMojeKarte(@PathParam("cookie") String cookie,
 			@QueryParam("naziv") String naziv,
-			@QueryParam("cenaOd") double cenaOd,
-			@QueryParam("cenaDO") double cenaDo,
-			@QueryParam("datumOd") String sdatumOd,
-			@QueryParam("datumDo") String sdatumDo,
+			@QueryParam("cenaod") double cenaOd,
+			@QueryParam("cenado") double cenaDo,
+			@QueryParam("datumod") String sdatumOd,
+			@QueryParam("datumdo") String sdatumDo,
 			@QueryParam("sortat") KarteSortingParam sortat,
 			@QueryParam("tipKarte") TipKarte tip,
 			@QueryParam("statusKarte") StatusKarte status

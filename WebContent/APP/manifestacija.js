@@ -134,7 +134,7 @@ Vue.component("Manifestacija", {
         	await axios
         	.post('rest/karte/rezervisiKarte/'+this.cookie+'/'+manifestacija, null, opcije)
         	.then(response=>{
-        		location.reload();
+                this.getManifestacija();
         		alert("Uspešno rezervisane karte!");
         	})
         	

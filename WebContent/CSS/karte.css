@@ -1,0 +1,104 @@
+#filter-karte-div * {
+    box-sizing: border-box;
+}
+
+#filter-karte-container{
+    display: grid;
+    place-items: center;
+}
+
+#filter-karte-div {
+    max-width: 1000px;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    padding: 16px;
+    text-align: left;
+    background-color: #f1f1f1;
+    color: black;
+    grid-template-areas:
+            "manifestacija-pretraga cena-pretraga"
+            "tip-check datum-pretraga"
+            "sort-option1 sort-option2"
+            "status-div search-button-div";
+    gap: 20px;
+}
+
+#manifestacija-pretraga{
+    grid-area: manifestacija-pretraga;
+}
+#cena-pretraga{
+    grid-area: cena-pretraga;
+}
+#tip-check{
+    grid-area: tip-check;
+}
+#datum-pretraga{
+    grid-area: datum-pretraga;
+}
+
+#search-button-div{
+    grid-area: search-button-div;
+}
+#tip-check{
+    grid-area: tip-check;
+}
+
+#sort-option1{
+    grid-area: sort-option1;
+}
+#sort-option2{
+    grid-area: sort-option2;
+}
+
+.row {
+    width: 100%;
+    margin-bottom: 20px;
+    display: grid;
+    place-items: center;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    padding: 16px;
+    text-align: left;
+    background-color: #f1f1f1;
+    color: black;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+            "poster naziv naziv cena"
+            "poster datum datum cena"
+            "poster status tip cena";
+    gap: 10px;
+    max-width: 1000px;
+}
+
+#poster{
+    grid-area: poster;
+}
+#naziv{
+    grid-area: naziv;
+}
+#cena{
+    grid-area: cena;
+}
+#tip{
+    grid-area: tip;
+}
+#datum{
+    grid-area: datum;
+}
+
+.card > * {
+    margin-right: 25px;
+}
