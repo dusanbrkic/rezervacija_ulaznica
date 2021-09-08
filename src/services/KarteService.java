@@ -14,6 +14,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -58,6 +59,7 @@ public class KarteService {
 	@POST
 	@Path("/getMojeKarte/{cookie}")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getMojeKarte(@PathParam("cookie") String cookie,
 			@QueryParam("naziv") String naziv,
 			@QueryParam("cenaod") double cenaOd,
@@ -74,6 +76,7 @@ public class KarteService {
 			datumOd = LocalDateTime.parse(sdatumOd, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 			datumDo = LocalDateTime.parse(sdatumDo, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 		}
+		System.out.println("stigo");
 		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
 		Kupac ku = (Kupac) kDao.findByCookie(cookie);
 		KarteDAO karDao = (KarteDAO) context.getAttribute("karteDAO");
@@ -88,9 +91,12 @@ public class KarteService {
 		while(iterator.hasNext()) {
 			Karta k = iterator.next();
 			Manifestacija mf = mDao.findManifestacija(k.getManifestacija());
-			if(!mf.getNaziv().toLowerCase().contains(naziv.toLowerCase())){
-				iterator.remove();
-				continue;
+			if(naziv!=null && !naziv.equals("")) {
+				
+				if(!mf.getId().toLowerCase().contains(naziv.toLowerCase())){
+					iterator.remove();
+					continue;
+				}
 			}
 			if(datumOd!=null && datumDo!=null) {
 				if(mf.getVremeOdrzavanjaLDT().compareTo(datumOd)<=0 || mf.getVremeOdrzavanjaLDT().compareTo(datumDo)>=0) {
@@ -118,9 +124,9 @@ public class KarteService {
 			}
 		}
 		switch(sortat) {
-		case MANIFESTACIJAASC : karte.sort(Comparator.comparing(Karta::getNazivManifestacije));
+		case NAZIVASC: karte.sort(Comparator.comparing(Karta::getNazivManifestacije));
 			break;
-		case MANIFESTACIJADESC : karte.sort(Comparator.comparing(Karta::getNazivManifestacije).reversed());
+		case NAZIVDESC : karte.sort(Comparator.comparing(Karta::getNazivManifestacije).reversed());
 			break;
 		case CENAASC : karte.sort(Comparator.comparing(Karta::getCena));
 			break;

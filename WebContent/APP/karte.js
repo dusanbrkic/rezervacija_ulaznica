@@ -11,11 +11,12 @@ Vue.component("Karte", {
             checkedStatus: "SVE", //SVE REZERVISANA ODUSTANAK
             sort1: "NAZIV", //NAZIV CENA VREME
             sort2: "ASC",
+            rola: "",
         }
     },
     mounted() {
         this.cookie = localStorage.getItem("cookie")
-
+        this.rola = "KUPAC";
         this.search(true)
         $(function () {
             $("#slider-range").slider({
@@ -132,7 +133,7 @@ Vue.component("Karte", {
         search: function (initial) {
             let opcijePretrage = {
                 params: {
-                    naziv: this.naziv,
+                    naziv: this.manifestacija,
                     datumod: initial ? null : new Date($('input[name="datetimes"]').data('daterangepicker').startDate),
                     datumdo: initial ? null : new Date($('input[name="datetimes"]').data('daterangepicker').endDate),
                     cenaod: initial ? 0 : $("#slider-range").slider("values", 0),
