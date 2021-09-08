@@ -9,12 +9,14 @@ import java.util.Iterator;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import dao.KarteDAO;
@@ -53,8 +55,9 @@ public class KarteService {
 			context.setAttribute("manifestacijeDAO", md);
 		}
 	}
-	@GET
+	@POST
 	@Path("/getMojeKarte/{cookie}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getMojeKarte(@PathParam("cookie") String cookie,
 			@QueryParam("naziv") String naziv,
 			@QueryParam("cenaod") double cenaOd,
@@ -62,8 +65,8 @@ public class KarteService {
 			@QueryParam("datumod") String sdatumOd,
 			@QueryParam("datumdo") String sdatumDo,
 			@QueryParam("sortat") KarteSortingParam sortat,
-			@QueryParam("tipKarte") TipKarte tip,
-			@QueryParam("statusKarte") StatusKarte status
+			@QueryParam("statusKarte") StatusKarte status,
+			ArrayList<TipKarte> tipovi
 								) {
 		LocalDateTime datumOd = null;
 		LocalDateTime datumDo = null;
@@ -99,11 +102,12 @@ public class KarteService {
 				iterator.remove();
 				continue;
 			}
-			if(tip!=null) {
-				if(tip!=k.getTip()) {
+			if(tipovi!=null) {
+				if(!tipovi.contains(k.getTip())) {
 					iterator.remove();
 					continue;
 				}
+				
 			}
 			if(status!=null) {
 				if(status!=k.getStatus()) {

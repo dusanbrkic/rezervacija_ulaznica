@@ -137,7 +137,7 @@ Vue.component("Karte", {
                     datumdo: initial ? null : new Date($('input[name="datetimes"]').data('daterangepicker').endDate),
                     cenaod: initial ? 0 : $("#slider-range").slider("values", 0),
                     cenado: initial ? Infinity : $("#slider-range").slider("values", 1),
-                    statusKarte: this.statusKarte,
+                    statusKarte: initial ? null : this.statusKarte,
                     sortat: this.sort1 + this.sort2
                 }
             }
