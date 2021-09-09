@@ -78,9 +78,13 @@
     grid-template-areas:
             "poster naziv naziv cena"
             "poster datum datum cena"
-            "poster status tip cena";
+            "poster status tip dugme";
     gap: 10px;
     max-width: 1000px;
+}
+
+#dugme{
+	grid-area: dugme;
 }
 
 #poster{

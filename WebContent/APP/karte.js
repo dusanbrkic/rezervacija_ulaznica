@@ -14,31 +14,7 @@ Vue.component("Karte", {
             rola: "",
         }
     },
-    mounted() {
-        this.cookie = localStorage.getItem("cookie")
-        this.rola = "KUPAC";
-        this.search(true)
-        $(function () {
-            $("#slider-range").slider({
-                range: true,
-                slide: function (event, ui) {
-                    $("#amount").val(ui.values[0] + " RSD - " + ui.values[1] + " RSD");
-                }
-            });
-            $("#amount").val($("#slider-range").slider("values", 0) +
-                " RSD - " + $("#slider-range").slider("values", 1) + " RSD");
-        });
-        $(function () {
-            $('input[name="datetimes"]').daterangepicker({
-                timePicker: true,
-                startDate: moment().startOf('hour'),
-                endDate: moment().startOf('hour').add(32, 'hour'),
-                locale: {
-                    format: 'DD.M. HH:mm'
-                }
-            });
-        });
-    },
+    
     template: `
       <div>
       <link rel="stylesheet" href="CSS/karte.css" type="text/css">
@@ -123,13 +99,60 @@ Vue.component("Karte", {
               <div style="display: table-cell; vertical-align: middle; text-align: center;">{{ k.cena }}</div>
             </div>
             <div id="status" style="">{{ k.status }}</div>
+            	<div id="dugme">
+            		<div v-if='rola=="KUPAC"' id="otkazi" style="display:block;">
+          			<button v-on:click="otkaziKartu(k)">Odustani od rezervacije karte</button>
+    				</div>
+    				<div v-else id="obrisi" style="display:block;">
+          			<button  v-on:click="obrisiKartu(k)">Obriši kartu</button>
+          			</div>
+          		</div>
+          	</div>
           </div>
-        </div>
-      </div>
+         </div>
+       </div>
       </div>
     `
     ,
+    mounted() {
+        this.cookie = localStorage.getItem("cookie")
+        this.rola = localStorage.getItem("rola");
+        var rola = this.rola;
+        this.search(true)
+        $(function () {
+            $("#slider-range").slider({
+                range: true,
+                slide: function (event, ui) {
+                    $("#amount").val(ui.values[0] + " RSD - " + ui.values[1] + " RSD");
+                }
+            });
+            $("#amount").val($("#slider-range").slider("values", 0) +
+                " RSD - " + $("#slider-range").slider("values", 1) + " RSD");
+        });
+        $(function () {
+            $('input[name="datetimes"]').daterangepicker({
+                timePicker: true,
+                startDate: moment().startOf('hour'),
+                endDate: moment().startOf('hour').add(32, 'hour'),
+                locale: {
+                    format: 'DD.M. HH:mm'
+                }
+            });
+        });
+       
+    },
     methods: {
+    	
+    	obrisiKartu : function (Karta){
+    		console.log(Karta);
+    		console.log("obrisana")
+    	},
+    	
+    	otkaziKartu : function (Karta){
+    		console.log(Karta);
+    		console.log("otkazana");
+    	},
+    	
         search: function (initial) {
             let opcijePretrage = {
                 params: {
@@ -142,7 +165,7 @@ Vue.component("Karte", {
                     sortat: this.sort1 + this.sort2
                 }
             }
-            if(this.rola === "KUPAC") {
+            if(this.rola === this.rola) {
                 axios.post("rest/karte/getMojeKarte/" + this.cookie, this.checkedTipovi, opcijePretrage)
                     .then(response => {
                         this.karte.length = 0
@@ -168,6 +191,7 @@ Vue.component("Karte", {
                         this.karte = response.data
                     })
             }
+           
         },
         filterujManifestacije: function () {
             let opcijePretrage = {

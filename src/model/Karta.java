@@ -27,7 +27,8 @@ public class Karta{
 	public Karta getDTOcopy() {
 		Karta k = new Karta();
 		k.id = this.id;
-		k.kupac = ManifestacijeDAO.manifestacije.get(this.manifestacija).getNaziv();
+		//k.kupac = ManifestacijeDAO.manifestacije.get(this.manifestacija).getNaziv();
+		k.kupac = this.kupac;
 		k.prodavac = this.prodavac;
 		k.manifestacija = this.manifestacija;
 		k.cena = this.cena;

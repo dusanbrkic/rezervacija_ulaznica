@@ -267,6 +267,7 @@ public class ManifestacijeService {
 		if(!kDao.proveriRezervisanost(k.getManifestacija(), k.getKupac())) {
 			return Response.status(Response.Status.FORBIDDEN).build();
 		}
+		k.setDeleted(false);
 		mDao.dodajKomentar(k);
 		mDao.saveKomentari();
 		return Response.status(Response.Status.OK).build();
@@ -294,10 +295,12 @@ public class ManifestacijeService {
 		ArrayList<Komentar> komentari = new ArrayList<Komentar>();
 		for(Komentar k : mDao.komentari.values()) {
 			if(k.getManifestacija().equals(idm)) {
-				if(r!=Rola.KUPAC) {
-					komentari.add(k);
-				}else if(k.getOdobren()) {
-					komentari.add(k);
+				if(!k.getDeleted()) {
+					if(r!=Rola.KUPAC) {
+						komentari.add(k);
+					}else if(k.getOdobren()) {
+						komentari.add(k);
+					}
 				}
 			}
 		}

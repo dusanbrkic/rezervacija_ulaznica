@@ -7,10 +7,22 @@ public class Komentar {
 	private int ocena;
 	private Boolean odobren;
 	private String tekst;
+	private Boolean deleted;
 	public Komentar() {
 		super();
 	}
 	
+	
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+
+
 	public String getId() {
 		return id;
 	}

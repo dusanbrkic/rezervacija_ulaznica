@@ -76,16 +76,27 @@ public class KarteService {
 			datumOd = LocalDateTime.parse(sdatumOd, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 			datumDo = LocalDateTime.parse(sdatumDo, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 		}
-		System.out.println("stigo");
 		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
-		Kupac ku = (Kupac) kDao.findByCookie(cookie);
+		Korisnik kr = kDao.findByCookie(cookie);
 		KarteDAO karDao = (KarteDAO) context.getAttribute("karteDAO");
 		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
 		ArrayList<Karta> karte = new ArrayList<Karta>();
-		for(Karta k : karDao.karte.values()) {
-			if(k.getKupac().equals(ku.getUsername())){
-				karte.add(k);
+		if(kr.getUloga()==Rola.KUPAC) {
+			for(Karta k : karDao.karte.values()) {
+				if(k.getKupac().equals(kr.getUsername())){
+					karte.add(k);
+				}
 			}
+		}
+		if(kr.getUloga()==Rola.PRODAVAC) {
+			for(Karta k : karDao.karte.values()) {
+				if(k.getProdavac().equals(kr.getUsername())) {
+					karte.add(k);
+				}
+			}
+		}
+		if(kr.getUloga()==Rola.ADMIN) {
+			karte = new ArrayList<Karta>(karDao.karte.values());
 		}
 		Iterator<Karta> iterator = karte.iterator();
 		while(iterator.hasNext()) {
@@ -116,6 +127,11 @@ public class KarteService {
 				
 			}
 			if(status!=null) {
+				if(kr.getUloga()==Rola.PRODAVAC && k.getStatus()==StatusKarte.ODUSTANAK) {
+					iterator.remove();
+					continue;
+				}
+				
 				if(status!=k.getStatus()) {
 					iterator.remove();
 					continue;
