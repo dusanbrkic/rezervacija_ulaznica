@@ -12,11 +12,12 @@ Vue.component("Manifestacije", {
             grad: "",
             sort1: "VREME",
             sort2: "ASC",
+            role: "",
         }
     },
     mounted() {
         this.cookie = localStorage.getItem("cookie")
-
+        this.role = localStorage.getItem("rola")
         this.search(true)
         $(function () {
             $("#slider-range").slider({
@@ -137,7 +138,17 @@ Vue.component("Manifestacije", {
     ,
     methods: {
         pregledManifestacije: function (id) {
-            app.$router.push('manifestacija' + id);
+        	let rola='';
+        	if(this.role=="KUPAC"){
+        		rola = 'kupac';
+        	}
+        	if(this.role=="PRODAVAC"){
+        		rola = 'prodavac';
+        	}
+        	if(this.role=="ADMIN"){
+        		rola = 'admin'
+        	}
+            app.$router.push(rola+'/manifestacija' + id);
             localStorage.setItem("cookie", this.cookie);
         },
         search: function (initial) {

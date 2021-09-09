@@ -311,19 +311,29 @@ public class ManifestacijeService {
 		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
 		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
 		Korisnik kor = kDao.findByCookie(cookie);
-		Rola r = kor.getUloga();
 		ArrayList<Komentar> komentari = new ArrayList<Komentar>();
-		for(Komentar k : mDao.komentari.values()) {
-			if(k.getManifestacija().equals(idm)) {
-				if(!k.getDeleted()) {
-					if(r!=Rola.KUPAC) {
-						komentari.add(k);
-					}else if(k.getOdobren()) {
+		if(kor==null || kor.getUloga()==Rola.KUPAC) {
+			for(Komentar k : mDao.komentari.values()) {
+				if(k.getManifestacija().equals(idm)) {
+					if(!k.getDeleted()) {
+						if(k.getOdobren()) {
+							komentari.add(k);
+						}
+					}
+				}
+			}
+		}
+		
+		if(kor.getUloga()==Rola.PRODAVAC || kor.getUloga()==Rola.ADMIN) {
+			for(Komentar k : mDao.komentari.values()) {
+				if(k.getManifestacija().equals(idm)) {
+					if(!k.getDeleted()) {
 						komentari.add(k);
 					}
 				}
 			}
 		}
+		
 		
 		return Response.status(Response.Status.OK).entity(komentari).build();
 	}

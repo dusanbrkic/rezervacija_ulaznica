@@ -27,8 +27,14 @@ Vue.component("Manifestacija", {
         this.ucitajKomentare();
         this.role = localStorage.getItem("rola");
         var rola = this.role;
-        if(this.role!="KUPAC"){
-        	//$("#kupi").hide();
+        if(this.role=="KUPAC"){
+        	$("#kupovina").css('display','block');
+        }
+        if(this.role=="PRODAVAC"){
+        	$("#izmeni").css('display','block');
+        }
+        if(this.role=="ADMIN"){
+        	$("#obrisi").css('display','block');
         }
     },
     template: `
@@ -44,17 +50,17 @@ Vue.component("Manifestacija", {
           <div id="status">{{ manifestacija.aktivna }}</div>
           <div id="lokacija">{{ manifestacija.lokacija.adresa }} {{ manifestacija.lokacija.grad }}</div>
           <div id="kupi">
-          	<table v-if='rola=="KUPAC"'>
+          	<table id="kupovina" style="display:none;">
           	<tr>Regular<input id="regular" style="width:5%;" type="number" min="0" step="1" value="0"/>
           		Fan pit<input id="pit" style="width:5%;" type="number" min="0" step="1" value="0" />
           		VIP<input id="vip" style="width:5%;" type="number" min="0" step="1" value="0"/></tr>
           	<tr><button v-on:click="proveriCenu(manifestacija.id)">Proveri cenu</button><button v-on:click="rezervisiKarte(manifestacija.id)">Rezervisi karte</button></tr>
           	<tr id="ukupnacena">Ukupna cena je: 0</tr>
           	</table>
-          	<div v-if='rola=="PRODAVAC"'>
+          	<div id="izmeni" style="display:none;">
           		<button v-on:click="izmeniManifestaciju()">Izmeni manifestaciju</button>
           	</div>
-          	<div v-if='rola=="ADMIN"'>
+          	<div id="obrisi" style="display:none;">
           		<button v-on:click="obrisiManifestaciju(manifestacija)">Obriši manifestaciju</button>
           	</div>
           </div>

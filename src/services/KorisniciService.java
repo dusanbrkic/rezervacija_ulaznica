@@ -98,7 +98,7 @@ public class KorisniciService {
 		return cookie;
 	}
 	@GET
-	@Path("/getKupci/{cookie}")
+	@Path("/getKorisnici/{cookie}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getKorisnici(
@@ -107,6 +107,8 @@ public class KorisniciService {
 				@QueryParam("prezime") String prezime,
 				@QueryParam("username") String username,
 				@QueryParam("sortat") KupciSortingParam sortAt,
+				@QueryParam("kupci") Boolean kupci,
+				@QueryParam("zaposleni") Boolean zaposleni,
 				ArrayList<TipKupca> tipovi
 				) {
 		KorisniciDAO korisniciDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
@@ -158,7 +160,24 @@ public class KorisniciService {
 				iterator.remove();
 				continue;
 			}
-			if(k.getUloga()!=Rola.KUPAC) {
+			if(kupci!=null) {
+				if(kupci==false) {
+					if(k.getUloga()==Rola.KUPAC) {
+						iterator.remove();
+						continue;
+					}
+				}
+			}
+			if(zaposleni!=null) {
+				if(zaposleni==false) {
+					if(k.getUloga()==Rola.ADMIN || k.getUloga()==Rola.PRODAVAC) {
+						iterator.remove();
+						continue;
+					}
+				}
+			}
+			
+			if(k.getUloga()==Rola.KUPAC) {
 				Kupac ku = (Kupac) k;
 				if(!tipovi.contains(ku.getTip())) {
 					iterator.remove();
