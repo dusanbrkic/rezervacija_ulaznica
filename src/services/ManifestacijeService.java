@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -231,6 +232,25 @@ public class ManifestacijeService {
 		mf.setProdavac(k.getUsername());
 		mf.setAktivna(false);
 		mDao.dodajManifestaciju(mf);
+		mDao.saveManifestacije();
+		return Response.status(Response.Status.OK).build();
+	}
+	
+	@DELETE
+	@Path("/obrisiManifestaciju/{cookie}")
+	//@Consumes(MediaType.APPLICATION_JSON)
+	public Response obrisiManifestaciju(@PathParam("cookie") String cookie,@PathParam("idm")String idm) {
+		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
+		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		Korisnik k = kDao.findByCookie(cookie);
+		if(k.getUloga()!=Rola.ADMIN) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
+		Manifestacija mf = mDao.findManifestacija(idm);
+		if(mf==null) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		mf.setDeleted(true);
 		mDao.saveManifestacije();
 		return Response.status(Response.Status.OK).build();
 	}

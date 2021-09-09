@@ -144,14 +144,26 @@ Vue.component("Karte", {
     methods: {
     	
     	obrisiKartu : function (Karta){
-    		console.log(Karta);
-    		console.log("obrisana")
+    		if(confirm("Da li ste sigurni da želite da obrišete kartu?")){
+    			axios
+    			.delete("rest/karte/obrisiKartu/"+this.cookie+"/"+Karta.id)
+    			.then(response =>{
+    				alert("Karta uspešno obrisana")
+    				location.reload()
+    			})
+    		}
     	},
     	
     	otkaziKartu : function (Karta){
-    		console.log(Karta);
-    		console.log("otkazana");
-    	},
+    		if(confirm("Da li ste sigurni da želite da otkažete rezervaciju karte?")){
+    			axios 
+    			.post("rest/karte/otkaziKartu/"+this.cookie+"/"+Karta.id)
+    			.then(response=>{
+    				alert("Rezervacija karte uspešno otkazana")
+    				location.reload()
+    			})
+    		}
+    		    	},
     	
         search: function (initial) {
             let opcijePretrage = {

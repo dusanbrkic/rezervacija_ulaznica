@@ -26,8 +26,9 @@ Vue.component("Manifestacija", {
         this.getManifestacija();
         this.ucitajKomentare();
         this.role = localStorage.getItem("rola");
+        var rola = this.role;
         if(this.role!="KUPAC"){
-        	$("#kupi").hide();
+        	//$("#kupi").hide();
         }
     },
     template: `
@@ -43,13 +44,19 @@ Vue.component("Manifestacija", {
           <div id="status">{{ manifestacija.aktivna }}</div>
           <div id="lokacija">{{ manifestacija.lokacija.adresa }} {{ manifestacija.lokacija.grad }}</div>
           <div id="kupi">
-          	<table>
+          	<table v-if='rola=="KUPAC"'>
           	<tr>Regular<input id="regular" style="width:5%;" type="number" min="0" step="1" value="0"/>
           		Fan pit<input id="pit" style="width:5%;" type="number" min="0" step="1" value="0" />
           		VIP<input id="vip" style="width:5%;" type="number" min="0" step="1" value="0"/></tr>
           	<tr><button v-on:click="proveriCenu(manifestacija.id)">Proveri cenu</button><button v-on:click="rezervisiKarte(manifestacija.id)">Rezervisi karte</button></tr>
           	<tr id="ukupnacena">Ukupna cena je: 0</tr>
           	</table>
+          	<div v-if='rola=="PRODAVAC"'>
+          		<button v-on:click="izmeniManifestaciju()">Izmeni manifestaciju</button>
+          	</div>
+          	<div v-if='rola=="ADMIN"'>
+          		<button v-on:click="obrisiManifestaciju(manifestacija)">Obriši manifestaciju</button>
+          	</div>
           </div>
           <div id="poster" style="width: 350px; height: 400px">
             <img :src="manifestacija.poster" alt="poster"
@@ -82,6 +89,21 @@ Vue.component("Manifestacija", {
     `
     ,
     methods: {
+    	izmeniManifestaciju: function(manifestacija){
+    		console.log("menjanje");
+    	},
+    	obrisiManifestaciju: function(manifestacija){
+    		if(confirm("Da li ste sigurni da zelite da obrisete manifestaciju")){
+    		console.log("brisanje");
+    		axios
+    		.delete("rest/obrisiManifestaciju/"+this.cookie+"/"+manifestacija.id)
+    		.then(reponse=>{
+    			alert("Manifestacija uspesno obrisana")
+    			location.reload()
+    		})
+    		}
+    	},
+    	
         getManifestacija: function () {
             axios.get('rest/manifestacije/getManifestacija/' + this.idManifestacije)
                 .then(response => {

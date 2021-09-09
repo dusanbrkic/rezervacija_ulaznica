@@ -20,6 +20,7 @@ public class Karta{
 	private String vremeManifestacije;
 	private StatusKarte status;
 	private TipKarte tip;
+	private Boolean deleted;
 	public Karta() {
 		super();
 	}
@@ -35,6 +36,7 @@ public class Karta{
 		k.vremeManifestacije = this.vremeManifestacije;
 		k.status = this.status;
 		k.tip = tip;
+		k.deleted = deleted;
 		return k;
 	}
 	
@@ -95,6 +97,12 @@ public class Karta{
 	}
 	public void setTip(TipKarte tip) {
 		this.tip = tip;
+	}
+	public Boolean getDeleted() { 
+		return deleted;
+	}
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 	@JsonIgnore
 	@Override

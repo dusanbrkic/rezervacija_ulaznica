@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -102,6 +103,10 @@ public class KarteService {
 		while(iterator.hasNext()) {
 			Karta k = iterator.next();
 			Manifestacija mf = mDao.findManifestacija(k.getManifestacija());
+			if(k.getDeleted()) {
+				iterator.remove();
+				continue;
+			}
 			if(naziv!=null && !naziv.equals("")) {
 				
 				if(!mf.getId().toLowerCase().contains(naziv.toLowerCase())){
@@ -269,4 +274,23 @@ public class KarteService {
 		kDao.saveKupci();
 		return Response.status(Response.Status.OK).build();
 	}
-}
+	
+	@DELETE
+	@Path("/obrisiKartu/{cookie}/{idk}")
+	public Response obrisiKartu(@PathParam("cookie")String cookie, @PathParam("idk") String idk) {
+		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		KarteDAO karDao = (KarteDAO) context.getAttribute("karteDAO");
+		Korisnik ks = kDao.findByCookie(cookie);
+		if(ks.getUloga()!=Rola.ADMIN) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
+		Karta k = karDao.findKarta(idk);
+		if(k==null) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		karDao.obrisiKartu(k);
+		karDao.saveKarte();
+		return Response.status(Response.Status.OK).build();
+		}
+	}
+

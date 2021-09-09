@@ -45,6 +45,11 @@ public class KarteDAO {
             e.printStackTrace();
         }
 		sequencer+= karte.size();
+		for(Karta k : karte.values()) {
+			if(k.getDeleted()==null) {
+				k.setDeleted(false);
+			}
+		}
 
 	}
 	
@@ -57,6 +62,7 @@ public class KarteDAO {
 		k.setProdavac(mf.getProdavac());
 		k.setStatus(StatusKarte.REZERVISANA);
 		k.setVremeManifestacije(mf.getVremeOdrzavanjaLDT().toString());
+		k.setDeleted(false);
 		k.setTip(tip);
 		switch(tip) {
 		case VIP : k.setCena(mf.getRegularCena()*4);
@@ -68,6 +74,10 @@ public class KarteDAO {
 		}
 		karte.put(k.getId(), k);
 		return k;
+	}
+	
+	public void obrisiKartu(Karta k) {
+		k.setDeleted(true);
 	}
 	
 	public Karta findKarta(String key) {
