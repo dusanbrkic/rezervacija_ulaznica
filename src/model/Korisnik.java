@@ -22,7 +22,7 @@ public class Korisnik {
 	public Korisnik() { }
 	
 	@JsonIgnore
-	public int getBrojBodova() {
+	public int takeBrojBodova() {
 		return 0;
 	}
 	public String getUsername() {

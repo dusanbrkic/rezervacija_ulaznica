@@ -24,6 +24,7 @@ import model.Korisnik;
 import model.Kupac;
 import model.Prodavac;
 import model.TipKupca;
+import model.enums.ImeTipaKupca;
 import model.enums.KupciSortingParam;
 import model.enums.Rola;
 
@@ -97,7 +98,7 @@ public class KorisniciService {
 		}
 		return cookie;
 	}
-	@GET
+	@POST
 	@Path("/getKorisnici/{cookie}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -109,7 +110,7 @@ public class KorisniciService {
 				@QueryParam("sortat") KupciSortingParam sortAt,
 				@QueryParam("kupci") Boolean kupci,
 				@QueryParam("zaposleni") Boolean zaposleni,
-				ArrayList<TipKupca> tipovi
+				ArrayList<ImeTipaKupca> tipovi
 				) {
 		KorisniciDAO korisniciDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
 		KarteDAO karDao = (KarteDAO) context.getAttribute("karteDAO");
@@ -204,9 +205,9 @@ public class KorisniciService {
 			break;
 		case USERNAMEDESC : results.sort(Comparator.comparing(Korisnik::getUsername).reversed());
 			break;
-		case BODOVIASC : results.sort(Comparator.comparing(Korisnik::getBrojBodova));
+		case BODOVIASC : results.sort(Comparator.comparing(Korisnik::takeBrojBodova));
 			break;
-		case BODOVIDESC : results.sort(Comparator.comparing(Korisnik::getBrojBodova).reversed());
+		case BODOVIDESC : results.sort(Comparator.comparing(Korisnik::takeBrojBodova).reversed());
 			break;
 		}
 

@@ -1,0 +1,107 @@
+#filter-korisnici-div * {
+    box-sizing: border-box;
+}
+
+#filter-korisnici-container{
+    display: grid;
+    place-items: center;
+}
+
+#filter-korisnici-div {
+    max-width: 1000px;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    padding: 16px;
+    text-align: left;
+    background-color: #f1f1f1;
+    color: black;
+    grid-template-areas:
+            "ime-pretraga prezime-pretraga kIme-pretraga"
+            "tip-check1 tip-check2 search-button-div"
+            "sort-option1 sort-option2 search-button-div";
+    gap: 20px;
+}
+
+#ime-pretraga{
+    grid-area: ime-pretraga;
+}
+#prezime-pretraga{
+    grid-area: prezime-pretraga;
+}
+#kIme-pretraga{
+    grid-area: kIme-pretraga;
+}
+#search-button-div{
+    grid-area: search-button-div;
+}
+#tip-check1{
+    grid-area: tip-check1;
+}
+#tip-check2{
+    grid-area: tip-check2;
+}
+#sort-option1{
+    grid-area: sort-option1;
+}
+#sort-option2{
+    grid-area: sort-option2;
+}
+
+.row {
+    width: 100%;
+    margin-bottom: 20px;
+    display: grid;
+    place-items: center;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    padding: 16px;
+    text-align: left;
+    background-color: #f1f1f1;
+    color: black;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+            "korisnickoIme ime prezime broj-bodova"
+            "korisnickoIme uloza tip broj-bodova"
+            "korisnickoIme ukloni-btn ukloni-btn broj-bodova";
+    gap: 10px;
+    max-width: 1000px;
+}
+
+#korisnickoIme{
+    grid-area: korisnickoIme;
+}
+#ime{
+    grid-area: ime;
+}
+#prezime{
+    grid-area: prezime;
+}
+#broj-bodova{
+    grid-area: broj-bodova;
+}
+#uloza{
+    grid-area: uloza;
+}
+#tip{
+    grid-area: tip;
+}
+#ukloni-btn{
+    grid-area: ukloni-btn;
+}
+
+.card > * {
+    margin-right: 25px;
+}

@@ -19,14 +19,15 @@ public class Kupac extends Korisnik {
 	}
 
 	@Override
-	public int getBrojBodova() {
+	public int takeBrojBodova() {
 		return brojBodova;
 	}
 	public void setBrojBodova(int brojBodova) {
 		this.brojBodova = brojBodova;
 	}
+	public int getBrojBodova() {return brojBodova;}
 
-	public List<String> getKarte() {
+		public List<String> getKarte() {
 		return karte;
 	}
 

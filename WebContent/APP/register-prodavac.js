@@ -3,7 +3,7 @@ Vue.component("RegisterProdavac", {
         return {
         	mfid: "",
             cookie: "",
-            manifestacija = {
+            manifestacija : {
             		
             }
         }
