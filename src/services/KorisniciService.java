@@ -19,9 +19,11 @@ import dao.KorisniciDAO;
 import dao.ManifestacijeDAO;
 import exceptions.*;
 import model.Admin;
+import model.Karta;
 import model.Korisnik;
 import model.Kupac;
 import model.Prodavac;
+import model.TipKupca;
 import model.enums.KupciSortingParam;
 import model.enums.Rola;
 
@@ -96,21 +98,50 @@ public class KorisniciService {
 		return cookie;
 	}
 	@GET
-	@Path("/getKupci")
+	@Path("/getKupci/{cookie}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getKupci(
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response getKorisnici(
+				@PathParam("cookie")String cookie,
 				@QueryParam("ime") String ime,
 				@QueryParam("prezime") String prezime,
 				@QueryParam("username") String username,
-				@QueryParam("sortat") KupciSortingParam sortAt
+				@QueryParam("sortat") KupciSortingParam sortAt,
+				ArrayList<TipKupca> tipovi
 				) {
 		KorisniciDAO korisniciDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
-		HashMap<String, Kupac> kupci = (HashMap<String, Kupac>) korisniciDao.kupci.clone();
-		Iterator<String> iterator = kupci.keySet().iterator();
-		//System.out.println(username);
+		KarteDAO karDao = (KarteDAO) context.getAttribute("karteDAO");
+		HashMap<String, Korisnik> korisnici = new HashMap<String , Korisnik>();
+		Korisnik koris = korisniciDao.findByCookie(cookie);
+		if(koris.getUloga()==Rola.KUPAC) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
+		
+		
+		if(koris.getUloga()==Rola.PRODAVAC) {
+			for(Karta kar : karDao.karte.values()) {
+				if(kar.getProdavac().equals(koris.getUsername()) && !(kar.getDeleted())) {
+					Kupac kp = korisniciDao.kupci.get(kar.getKupac());
+					korisnici.put(kp.getUsername(), kp);					
+				}
+			}
+		}
+		
+		if(koris.getUloga()==Rola.ADMIN) {
+			for(Kupac ku : korisniciDao.kupci.values()) {
+				korisnici.put(ku.getUsername(), ku);
+			}
+			for(Admin a : korisniciDao.admini.values()) {
+				korisnici.put(a.getUsername(), a);
+			}
+			for(Prodavac p : korisniciDao.prodavci.values()) {
+				korisnici.put(p.getUsername(), p);
+			}
+		}
+		Iterator<String> iterator = korisnici.keySet().iterator();
 		while(iterator.hasNext()) {
 			String trenutni = iterator.next();
-			Kupac k = kupci.get(trenutni);
+			Korisnik k = korisnici.get(trenutni);
 			if(k.getDeleted()) {
 				iterator.remove();
 				continue;
@@ -127,29 +158,36 @@ public class KorisniciService {
 				iterator.remove();
 				continue;
 			}
+			if(k.getUloga()!=Rola.KUPAC) {
+				Kupac ku = (Kupac) k;
+				if(!tipovi.contains(ku.getTip())) {
+					iterator.remove();
+					continue;
+				}
+			}
 
 		}
-		Collection<Kupac> ckupci = kupci.values();
-		ArrayList<Kupac> results = new ArrayList<Kupac>(ckupci);
+		Collection<Korisnik> ckupci = korisnici.values();
+		ArrayList<Korisnik> results = new ArrayList<Korisnik>(ckupci);
 		if(sortAt==null) {
 			sortAt = KupciSortingParam.NISTA;
 		}
 		switch(sortAt) {
-		case IMEASC : results.sort(Comparator.comparing(Kupac::getIme));
+		case IMEASC : results.sort(Comparator.comparing(Korisnik::getIme));
 			break;
-		case IMEDESC : results.sort(Comparator.comparing(Kupac::getIme).reversed());
+		case IMEDESC : results.sort(Comparator.comparing(Korisnik::getIme).reversed());
 			break;
-		case PREZIMEASC : results.sort(Comparator.comparing(Kupac::getPrezime));
+		case PREZIMEASC : results.sort(Comparator.comparing(Korisnik::getPrezime));
 			break;
-		case PREZIMEDESC : results.sort(Comparator.comparing(Kupac::getPrezime).reversed());
+		case PREZIMEDESC : results.sort(Comparator.comparing(Korisnik::getPrezime).reversed());
 			break;
-		case USERNAMEASC : results.sort(Comparator.comparing(Kupac::getUsername));
+		case USERNAMEASC : results.sort(Comparator.comparing(Korisnik::getUsername));
 			break;
-		case USERNAMEDESC : results.sort(Comparator.comparing(Kupac::getUsername).reversed());
+		case USERNAMEDESC : results.sort(Comparator.comparing(Korisnik::getUsername).reversed());
 			break;
-		case BODOVIASC : results.sort(Comparator.comparing(Kupac::getBrojBodova));
+		case BODOVIASC : results.sort(Comparator.comparing(Korisnik::getBrojBodova));
 			break;
-		case BODOVIDESC : results.sort(Comparator.comparing(Kupac::getBrojBodova).reversed());
+		case BODOVIDESC : results.sort(Comparator.comparing(Korisnik::getBrojBodova).reversed());
 			break;
 		}
 
@@ -158,26 +196,5 @@ public class KorisniciService {
 		return Response.status(Response.Status.OK).entity(results).build();
 	}
 
-	public Response getKorisnici(
-								@QueryParam("ime") String ime,
-								@QueryParam("prezime") String prezime,
-								@QueryParam("username") String username,
-								@QueryParam("password") String password) {
-		KorisniciDAO korisniciDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
-		HashMap<String, Kupac> kupci = (HashMap<String, Kupac>) korisniciDao.kupci.clone();
-		HashMap<String, Admin> admini = (HashMap<String, Admin>) korisniciDao.admini.clone();
-		HashMap<String, Prodavac> prodavci = (HashMap<String, Prodavac>) korisniciDao.prodavci.clone();
-		HashMap<String, Korisnik> korisnici = new HashMap<String, Korisnik>();
-		for (Kupac k : kupci.values()) {
-			korisnici.put(k.getUsername(), k);
-		}
-		for (Admin a : admini.values()) {
-			korisnici.put(a.getUsername(), a);
-		}
-		for (Prodavac p : prodavci.values()) {
-			korisnici.put(p.getUsername(), p);
-		}
-		ArrayList<Korisnik> results = (ArrayList<Korisnik>) korisnici.values();
-		return Response.status(Response.Status.OK).entity(results).build();
-	}
+	
 }

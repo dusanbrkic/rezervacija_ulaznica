@@ -2,6 +2,8 @@ package model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import model.enums.Pol;
 import model.enums.Rola;
 
@@ -18,7 +20,11 @@ public class Korisnik {
 	private String cookieToken;
 
 	public Korisnik() { }
-
+	
+	@JsonIgnore
+	public int getBrojBodova() {
+		return 0;
+	}
 	public String getUsername() {
 		return username;
 	}

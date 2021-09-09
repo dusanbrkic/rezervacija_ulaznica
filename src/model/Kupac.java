@@ -18,6 +18,7 @@ public class Kupac extends Korisnik {
 		karte = new ArrayList<String>();
 	}
 
+	@Override
 	public int getBrojBodova() {
 		return brojBodova;
 	}
