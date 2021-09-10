@@ -70,6 +70,39 @@ public class KorisniciService {
 	}
 	
 	@POST
+	@Path("/izmeniProfil/{cookie}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response izmeniProfil(@PathParam("cookie")String cookie, Korisnik k) {
+		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		Korisnik kor = kd.findByCookie(cookie);
+		kor.setIme(k.getIme());
+		kor.setPrezime(k.getPrezime());
+		if(k.getPassword()==null) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		kor.setPassword(k.getPassword());
+		kd.saveKorisnici();
+		return Response.status(Response.Status.OK).build();
+	}
+	
+	
+	@GET
+	@Path("/getKorisnik/{cookie}")
+	public Response getKorisnik(@PathParam("cookie") String cookie) {
+		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		Korisnik k = kd.findByCookie(cookie);
+		if(k==null) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		if(k.getUloga()==Rola.KUPAC) {
+			Kupac kp = (Kupac) k;
+			return Response.status(Response.Status.OK).entity(kp).build();
+		}
+		
+		return Response.status(Response.Status.OK).entity(k).build();
+	}
+	
+	@POST
 	@Path("/registrujProdavca/{cookie}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String registracijaProdavca(Prodavac p, @PathParam("cookie") String cookie) {

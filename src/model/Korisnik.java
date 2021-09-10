@@ -85,4 +85,12 @@ public class Korisnik {
 	public void setCookieToken(String token) {
 		this.cookieToken = token;
 	}
+
+	@Override
+	public String toString() {
+		return "Korisnik [username=" + username + ", password=" + password + ", ime=" + ime + ", prezime=" + prezime
+				+ ", datumRodjenja=" + datumRodjenja + ", uloga=" + uloga + ", pol=" + pol + ", blocked=" + blocked
+				+ ", deleted=" + deleted + ", cookieToken=" + cookieToken + "]";
+	}
+	
 }

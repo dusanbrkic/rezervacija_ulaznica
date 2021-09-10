@@ -42,5 +42,14 @@ public class Kupac extends Korisnik {
 	public void setTip(ImeTipaKupca tip) {
 		this.tip = tip;
 	}
+
+	@Override
+	public String toString() {
+		return "Kupac [karte=" + karte + ", brojBodova=" + brojBodova + ", tip=" + tip + ", toString()="
+				+ super.toString() + "]";
+	}
+
+	
+	
 	
 }

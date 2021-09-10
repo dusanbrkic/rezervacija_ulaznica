@@ -237,7 +237,7 @@ public class ManifestacijeService {
 	}
 	
 	@DELETE
-	@Path("/obrisiManifestaciju/{cookie}")
+	@Path("/obrisiManifestaciju/{cookie}/{idm}")
 	//@Consumes(MediaType.APPLICATION_JSON)
 	public Response obrisiManifestaciju(@PathParam("cookie") String cookie,@PathParam("idm")String idm) {
 		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");

@@ -35,6 +35,12 @@ public class KorisniciDAO {
         prodavciFileName = resourceDir + fileSeparator + "RES" + fileSeparator + "prodavci.json";
         loadKorisnici();
     }
+    
+    public void saveKorisnici() {
+    	saveKupci();
+    	saveAdmini();
+    	saveProdavci();
+    }
 
     public void saveKupci() {
         try {
@@ -156,7 +162,7 @@ public class KorisniciDAO {
         }
         String usn = parsedToken.get("username");
         String pass = parsedToken.get("password");
-        if (kupci.containsKey(usn)) {
+        if (kupci.containsKey(usn)) {        	
             Kupac k = kupci.get(usn);
             if (k.getPassword().equals(pass)) {
                 return k;

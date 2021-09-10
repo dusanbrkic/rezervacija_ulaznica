@@ -102,7 +102,7 @@ Vue.component("Manifestacija", {
     		if(confirm("Da li ste sigurni da zelite da obrisete manifestaciju")){
     		console.log("brisanje");
     		axios
-    		.delete("rest/obrisiManifestaciju/"+this.cookie+"/"+manifestacija.id)
+    		.delete("rest/manifestacije/obrisiManifestaciju/"+this.cookie+"/"+manifestacija.id)
     		.then(reponse=>{
     			alert("Manifestacija uspesno obrisana")
     			location.reload()
