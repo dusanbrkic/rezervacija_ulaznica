@@ -14,7 +14,7 @@ Vue.component("MojeManifestacije", {
     template: `
 
 <div>
-      
+<div style="margin-bottom: 15px"></div>
 
       <div id="manifestacije-div">
         <link rel="stylesheet" href="CSS/manifestacije.css" type="text/css">

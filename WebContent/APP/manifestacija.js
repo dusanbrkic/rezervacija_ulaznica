@@ -30,7 +30,8 @@ Vue.component("Manifestacija", {
         if(this.role=="KUPAC"){
         	$("#kupovina").css('display','block');
         }
-        if(this.role=="PRODAVAC"){
+        this.getProdavac()
+        if(this.role=="PRODAVAC" && this.prodavac===this.manifestacija.prodavac){
         	$("#izmeni").css('display','block');
         }
         if(this.role=="ADMIN"){
@@ -95,8 +96,13 @@ Vue.component("Manifestacija", {
     `
     ,
     methods: {
+        getProdavac: function (){
+            axios.get('rest/korisnici/getKorisnik/' + this.cookie)
+                .then(response => (this.prodavac = response.data.username))
+        },
     	izmeniManifestaciju: function(manifestacija){
-    		console.log("menjanje");
+            localStorage.setItem("unetaManifestacija", this.manifestacija.id)
+    		app.$router.push('registrujManifestaciju')
     	},
     	obrisiManifestaciju: function(manifestacija){
     		if(confirm("Da li ste sigurni da zelite da obrisete manifestaciju")){

@@ -11,11 +11,15 @@ Vue.component("ManifestacijaForma", {
             adresa: "",
             poster: "",
             grad: "",
+            mId: "",
         }
     },
 
     mounted(){
-      this.cookie = localStorage.getItem("cookie")
+        this.cookie = localStorage.getItem("cookie")
+        this.mId  = localStorage.getItem("unetaManifestacija")
+        if(this.mId)
+            this.findManifestacija(this.mId)
     },
 
     template: `
@@ -47,7 +51,7 @@ Vue.component("ManifestacijaForma", {
           </tr>
           <tr>
             <td>Datum odrzavanja:</td>
-            <td><input type="date" v-model="datum"></td>
+            <td><input type="datetime-local" v-model="datum"></td>
           </tr>
           <tr>
             <td>Cena:</td>
@@ -84,6 +88,21 @@ Vue.component("ManifestacijaForma", {
     `
     ,
     methods: {
+        findManifestacija: function (mId){
+            axios.get('rest/manifestacije/getManifestacija/' + mId)
+                .then(response => {
+                    this.naziv = response.data.naziv
+                    this.brojMesta = response.data.brojMesta
+                    this.cena = response.data.regularCena
+                    this.grad = response.data.lokacija.grad
+                    this.adresa = response.data.lokacija.adresa
+                    this.datum = new Date(response.data.vremeOdrzavanja)
+                    this.tip = response.data.tip
+                })
+        },
+
+
+
         submit: async function () {
             if (this.pol === "") {
                 alert("Niste uneli pol!")
@@ -117,11 +136,19 @@ Vue.component("ManifestacijaForma", {
                     deleted: false,
                 },
             }
-            await axios
-                .post("rest/manifestacije/dodajManifestaciju/" + this.cookie, manifestacija, {params: {'vreme': new Date(this.datum)}})
-                .then((response) => (this.cookie = response.data))
+            if (this.mId) {
+                await axios
+                    .post("rest/manifestacije/dodajManifestaciju/" + this.cookie, manifestacija, {params: {'vreme': new Date(this.datum)}})
+                    .then((response) => (this.cookie = response.data))
 
-            alert("Manifestacija uspesno registrovana!")
+                alert("Manifestacija uspesno registrovana!")
+            }
+            else{
+                await axios
+                    .post("rest/manifestacije/izmeniManifestaciju/" + this.cookie + '/' + manifestacija.id,
+                        manifestacija, {params: {'vreme': new Date(this.datum)}})
+                    .then((response) => (this.cookie = response.data))
+            }
 
             this.$router.push("/prodavac")
         },

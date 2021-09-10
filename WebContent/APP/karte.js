@@ -111,7 +111,6 @@ Vue.component("Karte", {
           </div>
          </div>
        </div>
-      </div>
     `
     ,
     mounted() {
@@ -143,25 +142,25 @@ Vue.component("Karte", {
     },
     methods: {
     	
-    	obrisiKartu : function (Karta){
+    	obrisiKartu : async function (Karta){
     		if(confirm("Da li ste sigurni da želite da obrišete kartu?")){
-    			axios
+    			await axios
     			.delete("rest/karte/obrisiKartu/"+this.cookie+"/"+Karta.id)
     			.then(response =>{
     				alert("Karta uspešno obrisana")
-    				location.reload()
     			})
+                this.search(true)
     		}
     	},
     	
-    	otkaziKartu : function (Karta){
+    	otkaziKartu : async function (Karta){
     		if(confirm("Da li ste sigurni da želite da otkažete rezervaciju karte?")){
-    			axios 
+                await axios
     			.post("rest/karte/otkaziKartu/"+this.cookie+"/"+Karta.id)
     			.then(response=>{
     				alert("Rezervacija karte uspešno otkazana")
-    				location.reload()
     			})
+                this.search(true)
     		}
     		    	},
     	

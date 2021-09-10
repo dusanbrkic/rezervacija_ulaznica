@@ -20,8 +20,8 @@ Vue.component("Profil", {
 
       <div id="register-div">
       <link rel="stylesheet" href="CSS/register.css" type="text/css">
-      <h1 id="h1-register">Registracija</h1>
-      <form @submit.prevent="submit">
+      <h1 id="h1-register">Promena profila</h1>
+      <form @submit.prevent="submitChange">
         <table id="reg-table">
           <tr>
             <td>Ime:</td>
@@ -41,24 +41,24 @@ Vue.component("Profil", {
           </tr>
           <tr>
             <td>Pol:</td>
-            <td  v-model="korisnik.pol">
+            <td>{{korisnik.pol}}
             </td>
           </tr>
           <tr>
             <td>Datum rođenja:</td>
-            <td v-model="korisnik.datumRodjenja"></td>
+            <td>{{korisnik.datumRodjenja}}</td>
           </tr>
           <tr>
-          	<td>Broj bodova:</td><td v-model="korisnik.brojBodova">{{korisnik.brojBodova}}</td>
+          	<td>Broj bodova:</td><td>{{korisnik.brojBodova}}</td>
           </tr>
           <tr>
-          	<td>Tip korisnika:</td><td v-model="korisnik.ImeTipaKorisnika">{{korisnik.tip}}</td>
+          	<td>Tip korisnika:</td><td>{{korisnik.tip}}</td>
           </tr>
           <tr>
             <td style="text-align: center; font-size: 30px;">
               <input v-on:click="cancel" value="Otkaži"></td>
             <td style="text-align: center; font-size: 30px;">
-              <input type="submit" v-on:click="submitChange" value="Izmeni profil"></td>
+              <input type="submit" value="Izmeni profil"></td>
           </tr>
         </table>
       </form>
@@ -75,6 +75,7 @@ Vue.component("Profil", {
     	.get("rest/korisnici/getKorisnik/"+this.cookie)
     	.then(response=>{
     		this.korisnik = response.data
+			this.korisnik.datumRodjenja = moment(String(response.data.datumRodjenja)).format("DD/MM/YYYY HH:mm")
     		console.log(this.korisnik)
     	})
     	
