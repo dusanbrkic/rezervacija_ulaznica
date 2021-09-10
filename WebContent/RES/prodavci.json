@@ -1,14 +1,1 @@
-{
-  "dusan": {
-    "username": "dusan",
-    "password": "dusan",
-    "ime": "",
-    "prezime": "",
-    "datumRodjenja": null,
-    "uloga": "PRODAVAC",
-    "pol": "MUSKI",
-    "blocked": false,
-    "deleted": false,
-    "cookieToken": "dusan-dusan"
-  }
-}
+{"dinu":{"username":"dinu","password":"dinu","ime":"Dinu","prezime":"Dragan","datumRodjenja":329443200000,"uloga":"PRODAVAC","pol":"MUSKI","blocked":false,"deleted":false,"cookieToken":"dinu-dinu"},"dusan":{"username":"dusan","password":"dusan","ime":"Dusan","prezime":"Brkojac","datumRodjenja":null,"uloga":"PRODAVAC","pol":"MUSKI","blocked":false,"deleted":false,"cookieToken":"dusan-dusan"}}
