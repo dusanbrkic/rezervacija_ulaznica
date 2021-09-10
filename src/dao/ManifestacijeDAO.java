@@ -111,5 +111,26 @@ public class ManifestacijeDAO {
 		}
 		saveManifestacije();
 	}
+	
+	public void izmeniManifestaciju(Manifestacija nova, Manifestacija stara) {
+		stara.setBrojMesta(nova.getBrojMesta());
+		stara.setBrojSlobodnihMesta(nova.getBrojMesta());
+		stara.setLokacija(nova.getLokacija());
+		stara.setRegularCena(nova.getRegularCena());
+		stara.setTip(nova.getTip());
+		if(!(nova.getPoster()==null || nova.getPoster().equals(""))) {
+			String slike = resourceDir + fileSeparator + "RES" + File.separator + "slicice" + File.separator + "posteri";
+			String imageDataBytes = nova.getPoster().substring(nova.getPoster().indexOf(",")+1);
+			stara.setPoster("./RES/slicice/posteri/" +stara.getId() +".jpg");
+			byte[] data = Base64.getDecoder().decode(imageDataBytes);
+			   
+		   	try(OutputStream stream = new FileOutputStream(slike + File.separator + stara.getId() +".jpg")) {
+		   		stream.write(data);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		saveManifestacije();
+	}
 
 }
