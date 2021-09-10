@@ -1,21 +1,13 @@
 Vue.component("RegisterProdavac", {
     data: function () {
         return {
-<<<<<<< Updated upstream
-        	mfid: "",
-            cookie: "",
-            manifestacija : {
-            		
-            }
-=======
             ime: "",
             prezime: "",
             username: "",
             password: "",
             pol: "",
             datumRodjenja: "",
-            cookie: ""
->>>>>>> Stashed changes
+            cookie: "",
         }
     },
 
