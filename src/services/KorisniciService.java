@@ -19,6 +19,7 @@ import dao.KorisniciDAO;
 import dao.ManifestacijeDAO;
 import exceptions.*;
 import model.Admin;
+import model.CookieToken;
 import model.Karta;
 import model.Korisnik;
 import model.Kupac;
@@ -67,6 +68,28 @@ public class KorisniciService {
 		}
 		return cookie;
 	}
+	
+	@POST
+	@Path("/registrujProdavca/{cookie}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String registracijaProdavca(Prodavac p, @PathParam("cookie") String cookie) {
+		KorisniciDAO kd = (KorisniciDAO) context.getAttribute("korisniciDAO");
+		Korisnik k = kd.findByCookie(cookie);
+		if(k.getUloga()!=Rola.ADMIN) {
+			Response.status(Response.Status.FORBIDDEN).build();
+		}
+		if(kd.kupci.containsKey(p.getUsername())) {
+			return "username";
+		}
+		p.setDeleted(false);
+		p.setBlocked(false);
+		p.setUloga(Rola.PRODAVAC);
+		p.setCookieToken(CookieToken.createTokenValue(p.getUsername(), p.getPassword()));
+		kd.prodavci.put(p.getUsername(), p);
+		kd.saveProdavci();
+		return "";
+	}
+	
 	@GET
 	@Path("/validateUser/{cookie}")
 	@Produces(MediaType.APPLICATION_JSON)
