@@ -51,7 +51,7 @@ Vue.component("ManifestacijaForma", {
           </tr>
           <tr>
             <td>Datum odrzavanja:</td>
-            <td><input type="datetime-local" v-model="datum"></td>
+            <td><input type="date" v-model="datum"></td>
           </tr>
           <tr>
             <td>Cena:</td>
@@ -136,7 +136,7 @@ Vue.component("ManifestacijaForma", {
                     deleted: false,
                 },
             }
-            if (this.mId) {
+            if (!this.mId) {
                 await axios
                     .post("rest/manifestacije/dodajManifestaciju/" + this.cookie, manifestacija, {params: {'vreme': new Date(this.datum)}})
                     .then((response) => (this.cookie = response.data))
@@ -144,10 +144,12 @@ Vue.component("ManifestacijaForma", {
                 alert("Manifestacija uspesno registrovana!")
             }
             else{
+            	let i = localStorage.getItem("unetaManifestacija")
                 await axios
-                    .post("rest/manifestacije/izmeniManifestaciju/" + this.cookie + '/' + manifestacija.id,
+                    .post("rest/manifestacije/izmeniManifestaciju/" + this.cookie + '/' + i,
                         manifestacija, {params: {'vreme': new Date(this.datum)}})
                     .then((response) => (this.cookie = response.data))
+                    alert("Manifestacija uspesno izmenjena!")
             }
 
             this.$router.push("/prodavac")

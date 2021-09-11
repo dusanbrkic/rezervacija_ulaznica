@@ -1,6 +1,7 @@
 package services;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -243,6 +244,10 @@ public class ManifestacijeService {
 	public Response izmeniManifestaciju(Manifestacija mf, @PathParam("cookie")String cookie, @PathParam("idm")String idm,
 			@QueryParam("vreme") String svreme) {
 		LocalDateTime vreme = LocalDateTime.parse(svreme, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+		//System.out.println(vreme);
+		if(svreme==null) {
+			svreme = LocalDateTime.now().toString();
+		}
 		ManifestacijeDAO mDao = (ManifestacijeDAO) context.getAttribute("manifestacijeDAO");
 		KorisniciDAO kDao = (KorisniciDAO) context.getAttribute("korisniciDAO");
 		Korisnik k = kDao.findByCookie(cookie);
@@ -250,6 +255,7 @@ public class ManifestacijeService {
 			return Response.status(Response.Status.OK).build();
 		}
 		Manifestacija stara = mDao.findManifestacija(idm);
+		System.out.println(idm);
 		stara.setVremeOdrzavanja(svreme);
 		mDao.izmeniManifestaciju(mf, stara);
 		return Response.status(Response.Status.OK).build();
